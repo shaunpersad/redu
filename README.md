@@ -21,7 +21,7 @@ A container component wraps the top-level component and manages the application 
 
 A presentational component wraps a descendant component, and links it to the container component.
 
-Both top-level and presentational components can pull in application state properties from the container component as props.
+Both the top-level and presentational components can pull in application state properties from the container component as props.
 They can also pull in action functions that can request state changes on the container component.
 
 ### "Visually" speaking...
