@@ -8,8 +8,8 @@ management, where events trigger action functions, which in turn call setState, 
 
 No reducers, no string constants, just _event_ => _action function_ => _setState_.
 
-Redu performs this same flow, but at an application-wide level, where a top-level component houses your application 
-state, and any of its descendant components may derive props from the application state, or perform actions to request 
+Redu performs this same flow, but at an application-wide level, where a single component houses your application 
+state, and any of its descendant components may derive props from its state, or perform actions to request 
 application state changes.  This simplicity is accomplished in less than 60 lines of code, using most of what React 
 natively offers.
 
