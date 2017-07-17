@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {presentationalComponent} from '../../../../redu';
+import {presentationalComponent} from 'redu';
 
 /**
  * This component illustrates that not all state needs to be tracked by the container component.

@@ -14,8 +14,8 @@ import ReactDOM from 'react-dom';
 import 'whatwg-fetch';
 import _debounce from 'lodash.debounce';
 
-import {containerComponent} from '../../../redu'; // will create a container out of the top-most component
 import Page from './components/Page'; // our top-most component
+import {containerComponent} from 'redu'; // will create a container out of the top-most component
 
 /**
  * This is the full representation of the state that we would like to keep track of

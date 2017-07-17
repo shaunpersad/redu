@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
     entry: './examples/github-users/src/app.js',
     output: {
@@ -20,5 +21,8 @@ module.exports = {
     },
     resolve: {
         extensions: ['.js', '.jsx'],
+        alias: {
+            redu: path.resolve(__dirname, 'redu.js')
+        }
     }
 };

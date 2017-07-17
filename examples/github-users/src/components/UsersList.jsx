@@ -3,7 +3,7 @@
 import React from 'react';
 import UsersListItem from './UsersListItem';
 
-import {presentationalComponent} from '../../../../redu';
+import {presentationalComponent} from 'redu';
 
 
 class UsersList extends React.Component {

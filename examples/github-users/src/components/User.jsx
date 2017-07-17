@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {presentationalComponent} from '../../../../redu';
+import {presentationalComponent} from 'redu';
 
 /**
  * Another "functional" component style.

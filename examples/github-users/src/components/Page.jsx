@@ -21,7 +21,6 @@ import User from './User';
  */
 function Page(props) {
 
-
     return (
         <div className="component-page">
             <div className="container">
@@ -52,6 +51,5 @@ function Page(props) {
         </div>
     );
 }
-
 
 export default Page;
