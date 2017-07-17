@@ -1,7 +1,7 @@
 /**
- * Head of State is comprised of two functions:
+ * Redu is comprised of two functions:
  * containerComponent, and presentationalComponent.
- * Both functions take in a React.Component, and create and return wrapper containers around them.
+ * Both functions take in a React.Component, and create and return wrapper components around them.
  *
  * Container components wrap top-level components and manage state.
  *
