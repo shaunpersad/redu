@@ -98,7 +98,7 @@ const actions = {
     },
 
     /**
-     * Only starts a search 200ms after typing.
+     * Only starts a search 500ms after typing.
      *
      * Notice that this action is asynchronous.
      *
