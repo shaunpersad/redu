@@ -1,5 +1,5 @@
 # redu
-Redux made simpler
+Redux made simpler.
 
 ## Simpler than simple?
 Redux is already simple.  At least, that's the theory.  The reality is that while action creators, actions, and reducers 

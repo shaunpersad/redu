@@ -1,7 +1,7 @@
 {
   "name": "redu",
   "version": "1.0.0",
-  "description": "Redux made simpler",
+  "description": "Redux made simpler.",
   "main": "redu.js",
   "directories": {
     "example": "examples"
