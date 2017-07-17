@@ -41,9 +41,9 @@ it.
 
 With Redu, the situation looks like this:
 ```jsx harmony
-<ContainerComponent component={TopLevelComponent}>
-    <PresentationalComponent component={ChildComponent}>
-        <PresentationalComponent component={GrandChildComponent} />
+<ContainerComponent wraps={TopLevelComponent}>
+    <PresentationalComponent wraps={ChildComponent}>
+        <PresentationalComponent wraps={GrandChildComponent} />
     </PresentationalComponent>
 </ContainerComponent>
 ```
