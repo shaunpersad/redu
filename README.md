@@ -3,7 +3,7 @@ Redux made simpler
 
 ## Simpler than simple?
 Redux is already simple.  At least, that's the theory.  The reality is that while action creators, actions, and reducers 
-are simple, open-ended concepts, their implementations often are not.  What is simple, is React's component-level state 
+are simple, open-ended concepts, their implementations often are not.  What _is_ simple, is React's component-level state 
 management, where events trigger action functions, which in turn call setState, to update that component's state.  
 
 No reducers, no string constants, just _event_ => _action function_ => _setState_.
@@ -19,7 +19,7 @@ Both functions take in a React.Component, and create and return wrapper componen
 
 A container component wraps the top-level component and manages the application state.
 
-Presentational components wrap descendant components, and link them to the container component.
+A presentational component wraps a descendant component, and links it to the container component.
 
 Both top-level and presentational components can pull in application state properties from the container component as props.
 They can also pull in action functions that can request state changes on the container component.
