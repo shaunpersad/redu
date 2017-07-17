@@ -1,0 +1,10 @@
+version: '2'
+services:
+
+  example:
+    build: .
+    image: shaunpersad/redu
+    command: npm run build
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
