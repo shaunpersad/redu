@@ -36,8 +36,8 @@ Let's say my app looks like this:
 ```
 If the GrandChildComponent wanted to utilize props or state from the TopLevelComponent, you'd have to pass them down
 first to the ChildComponent, then to the GrandChildComponent. Also, if you wanted to modify the TopLevelComponent's
-state, you'd have to pass down an action function in the same manner, so that the GrandChildComponent would be able to call
-it.
+state from the GrandChildComponent, you'd have to pass down an action function in the same manner, so that the 
+GrandChildComponent would be able to call it.
 
 With Redu, the situation looks like this:
 ```jsx harmony
