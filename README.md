@@ -58,8 +58,8 @@ class ContainerComponent extends React.Component {
 ```
 The advantage of this is that there is an intermediary step at each render, where we can pass in props. This becomes useful
 when we realize that `ContainerComponents` and `PresentationalComponents` are linked together using React's
-[context](https://facebook.github.io/react/docs/context.html#how-to-use-context) mechanism, bypassing the need to pass down props endlessly
-down the chain. 
+[context](https://facebook.github.io/react/docs/context.html#how-to-use-context) mechanism, allowing them to share common information while 
+bypassing the need to pass down props endlessly down the chain. 
 
 Therefore, `ChildComponent` and `GrandChildComponent` all have a chance to derive props
 from the `ContainerComponent`'s state or action functions, since their `PresentationalComponents` are linked to it by the `context`.
