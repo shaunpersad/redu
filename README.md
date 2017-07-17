@@ -2,7 +2,7 @@
 Redux made simpler.
 
 ## Simpler than simple?
-Redux is already simple.  At least, that's the theory.  The reality is that while action creators, actions, and reducers 
+Redux is already simple.  At least, that's the hope.  The reality is that while action creators, actions, and reducers 
 are simple, open-ended concepts, their implementations often are not.  What _is_ simple, is React's component-level state 
 management, where events trigger action functions, which in turn call setState, to update that component's state.  
 
