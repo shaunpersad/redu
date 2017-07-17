@@ -47,7 +47,8 @@ With Redu, the situation looks like this:
     </PresentationalComponent>
 </ContainerComponent>
 ```
-Redu leverages _composition_, meaning that the components that it generates will eventually render the component they were given.
+Redu leverages _composition_, meaning that the wrapper components that it generates will eventually render the component 
+they were given.
 As a simplified example, the ContainerComponent will eventually render the TopLevelComponent:
 ```jsx harmony
 class ContainerComponent extends React.Component {
