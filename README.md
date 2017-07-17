@@ -49,7 +49,7 @@ With Redu, the situation looks like this:
 ```
 Redu leverages _composition_, meaning that the wrapper components that it generates will eventually render the component 
 they wrap.
-As a simplified example, the PresentationalComponent will eventually render the GrandChildComponent:
+As a simplified example, the last PresentationalComponent in the chain will render the GrandChildComponent that it wraps:
 ```jsx harmony
 class PresentationalComponent extends React.Component {
     render() {
