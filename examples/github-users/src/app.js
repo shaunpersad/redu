@@ -51,7 +51,7 @@ const props = {
 /**
  * The actions you can perform to change the container component's state.
  *
- * They are all bound to the container component, so you have access to the it's setState function,
+ * They are all bound to the container component, so you have access to it's setState function,
  * props, and actions.
  *
  * @type {{displayUser: {function}, reset: {function}, search: {function}, debouncedSearch: {function}}}
