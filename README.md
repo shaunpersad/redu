@@ -1,4 +1,4 @@
-# redu
+# Redu
 Redux made simpler.
 
 ## Simpler than simple?
