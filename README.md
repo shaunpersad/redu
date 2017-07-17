@@ -1,0 +1,2 @@
+# redu
+Redux made simpler
