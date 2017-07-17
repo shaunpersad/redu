@@ -49,11 +49,11 @@ With Redu, the situation looks like this:
 ```
 Redu leverages _composition_, meaning that the wrapper components that it generates will eventually render the component 
 they wrap.
-As a simplified example, the ContainerComponent will eventually render the TopLevelComponent:
+As a simplified example, the PresentationalComponent will eventually render the GrandChildComponent:
 ```jsx harmony
-class ContainerComponent extends React.Component {
+class PresentationalComponent extends React.Component {
     render() {
-        return <TopLevelComponent {...this.props} {...someOtherStuff} />
+        return <GrandChildComponent {...this.props} {...someOtherStuff} />
     }
 }
 ```
