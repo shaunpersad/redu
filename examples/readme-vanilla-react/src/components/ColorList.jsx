@@ -24,6 +24,7 @@ class ColorList extends React.Component {
                 <div>
                     {this.props.colors.map(color =>
                         <Color
+                            key={color}
                             color={color}
                             changeColor={this.changeColor}
                             selectedColor={this.state.selectedColor}

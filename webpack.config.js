@@ -1,8 +1,11 @@
 const path = require('path');
 module.exports = {
-    entry: './examples/github-users/src/app.js',
+    entry: {
+        ['github-users']: './examples/github-users/src/app.js',
+        ['readme-vanilla-react']: './examples/readme-vanilla-react/src/app.js'
+    },
     output: {
-        filename: './examples/github-users/dist/bundle.js'
+        filename: './examples/[name]/dist/bundle.js'
     },
     devtool: 'inline-source-map',
     module: {

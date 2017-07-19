@@ -9,13 +9,16 @@ What _is_ simple, is React's component-level state management, where events trig
 setState, to update that component's state:
 ```jsx harmony
 class Counter extends Component {
-  state = { value: 0 };
-
-  increment = () => { // action function
-    this.setState(prevState => ({
-      value: prevState.value + 1
-    }));
-  };
+  constructor(props) {
+      super(props);
+      this.state = { value: 0 };
+      
+      this.increment = () => { // action function
+        this.setState(prevState => ({
+          value: prevState.value + 1
+        }));          
+      }
+  }
   
   render() {
     return (
@@ -31,7 +34,7 @@ class Counter extends Component {
 No reducers, no string constants, just _event_ => _action function_ => _setState_.
 
 Redu performs this exact same flow, but at an application-wide level, where a single `StoreComponent` houses your application 
-state, and any of its descendant `SubscriberComponents` may extract props from this state, or actions to request 
+state, and any of its descendant `SubscriberComponents` may derive props from this state, or actions to request 
 application-level state changes.
 
 ## Theory
