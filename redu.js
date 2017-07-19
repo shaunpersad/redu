@@ -1,14 +1,17 @@
 /**
  * Redu is comprised of two functions:
- * containerComponent, and presentationalComponent.
+ * stateManagerOf(Component), and subscribe(Component).
  * Both functions take in a React.Component, and create and return wrapper components around them.
  *
- * Container components wrap top-level components and manage state.
+ * stateManagerOf(Component) creates and returns a StoreComponent.
+ * subscribe(Component) creates and returns a SubscriberComponent.
  *
- * Presentational components pull in state properties from their container component as props.
- * They can also pull in action functions that can request state changes on the container component.
+ * StoreComponents wrap your top-level component and manages the application-level state.
  *
- * Presentational components are linked to container components via React's "context" feature:
+ * SubscriberComponents can derive their props directly out of the StoreComponent's state, props, and action functions.
+ * Action function calls are how SubscriberComponents can request application-level state changes.
+ *
+ * SubscriberComponents are linked to a StoreComponent via React's "context" feature:
  * https://facebook.github.io/react/docs/context.html
  */
 
@@ -20,128 +23,101 @@ import PropTypes from 'prop-types'; // bundled dependency
  * For use with setting up React contexts.
  */
 const contextTypes = {
-    actions: PropTypes.object.isRequired,
-    containerComponent: PropTypes.object.isRequired
+    storeComponent: PropTypes.object.isRequired
 };
 
 /**
- * Takes in the container's state and props,
- * and returns an object that will be merged into the props for the wrapped component.
- *
- * @typedef {function} containerStateToProps
- * @param {{}} [state] - the container's state
- * @param {{}} [props] - the container's props
- * @returns {{}}
- */
-
-/**
- * Takes in the container's actions,
- * and returns an object that will be merged into the props for the wrapped component.
- *
- * @typedef {function} actionsToProps
- * @param {{}} [actions] - the container's actions
- * @returns {{}}
- */
-
-/**
- * Options that can be passed in when creating presentational components.
- *
- * @typedef {object} presentationalOptions
- * @property {containerStateToProps} [containerStateToProps] - Converts the container's state to the presenter's props.
- * @property {actionsToProps} [actionsToProps] - Converts the container's actions to the presenter's props.
- */
-
-/**
- * @type {presentationalOptions}
- */
-const presentationalDefaults = {
-    containerStateToProps: (state, props) => {return {}},
-    actionsToProps: (actions) => {return {}}
-};
-
-/**
- * Options that can be passed in when creating container components.
- *
- * @typedef {object} containerOptions
- * @property {{}} [actions] - An object containing functions that will be bound to the container (and become members of it as well) to allow for state changes.
- * @property {{}} [initialState] - The initial state of the container.
- * @property {function} [containerStateToProps] - Converts the container's state to the wrapped component's props.
- * @property {function} [actionsToProps] - Converts the container's actions to the wrapped components's props.
- */
-
-/**
- * @type {containerOptions}
- */
-const containerDefaults = Object.assign({
-    actions: {},
-    initialState: {}
-}, presentationalDefaults);
-
-/**
- * Creates a container component that wraps the given component.
+ * Creates a StoreComponent that wraps the given component.
  *
  * The given component should be a top-level component.
  * Generally you're only going to want to have one usage of this,
  * to wrap your top-most component.
  *
- * The wrapped component, along with all presentational descendants of the container
- * will be able to create props out of this container's state as well as its actions.
+ * All SubscriberComponent descendants of this StoreComponent will be able to derive any props they need out of
+ * this StoreComponent's state, props, and actions.
  *
- * @param {React.Component} Component
- * @param {containerOptions} [options]
- * @returns {ContainerComponent}
+ * @param {SubscriberComponent|React.Component} Component
+ * @returns {StoreComponent}
  */
-export function containerComponent(Component, options = containerDefaults) {
+export function stateManagerOf(Component) {
 
-    const {
-        actions,
-        initialState,
-        containerStateToProps,
-        actionsToProps
-    } = Object.assign({}, containerDefaults, options);
+    /**
+     * An object containing action functions that will be bound to the StoreComponent,
+     * and made available through the "actions" property. Action functions will generally call "this.setState",
+     * which will update the StoreComponent's state.
+     *
+     * Actions can be defined with the "withActions" method.
+     *
+     * @type {{}}
+     * @private
+     */
+    let _actions = {};
 
-    const _actions = {};
+    /**
+     * The initial state of the StoreComponent. It should represent a complete picture of your application-level state.
+     *
+     * The initial state can be defined with the "withInitialState" method.
+     *
+     * @type {{}}
+     * @private
+     */
+    let _initialState = {};
 
-    class ContainerComponent extends React.Component {
+    class StoreComponent extends React.Component {
 
         constructor(props = {}) {
 
             super(props);
 
-            this.state = Object.assign({}, initialState);
+            this.state = Object.assign({}, _initialState); // set the initial state.
+            this.actions = {}; // make the action functions available via the "actions" property.
 
-            Object.keys(actions).forEach(action => {
+            Object.keys(_actions).forEach(action => {
 
-                if (action === 'render' || action === 'constructor' || action === 'getChildContext') {
-                    throw new Error(`Please rename the "${action}" action, as it is a reserved word.`);
-                }
-
-                _actions[action] = actions[action].bind(this); // bind to the container.
-                this[action] = _actions[action]; // become members of the container.
+                this.actions[action] = _actions[action].bind(this); // bind to the StoreComponent.
             });
         }
 
         /**
-         * Pass down any state properties and actions from the container
-         * that the wrapped component has asked for as props.
-         */
-        render() {
-
-            return React.createElement(Component, Object.assign(
-                containerStateToProps(this.state, this.props),
-                actionsToProps(_actions),
-                this.props
-            ));
-        }
-
-        /**
-         * Use React's "context" feature to maintain a link to the container and its actions.
+         * Use React's "context" feature to maintain a link from the StoreComponent to SubscriberComponents.
          *
-         * @returns {{actions: {}, containerComponent: ContainerComponent}}
+         * @returns {{storeComponent: StoreComponent}}
          */
         getChildContext() {
 
-            return { actions: _actions, containerComponent: this };
+            return { storeComponent: this };
+        }
+
+        /**
+         * Render the supplied component, and pass through any props.
+         *
+         * @returns {*|Element}
+         */
+        render() {
+
+            return React.createElement(Component, this.props);
+        }
+
+        /**
+         * Defines the StoreComponent's actions.
+         *
+         * @param {{}} actions
+         * @returns {StoreComponent}
+         */
+        static withActions(actions = {}) {
+            _actions = actions;
+            return this;
+        }
+
+        /**
+         * Defines the StoreComponent's initial state.
+         *
+         * @param {{}} initialState
+         * @returns {StoreComponent}
+         */
+        static withInitialState(initialState = {}) {
+            _initialState = initialState;
+            return this;
         }
 
         /**
@@ -155,39 +131,63 @@ export function containerComponent(Component, options = containerDefaults) {
         }
     }
 
-    return ContainerComponent;
+    return StoreComponent;
 }
 
+
 /**
+ * Creates a SubscriberComponent that wraps the given component.
+ *
+ * All SubscriberComponents have the ability to derive any props they need out of
+ * this StoreComponent's state, props, and actions, by supplying a "derivePropsFromStoreComponent" function,
+ * which can be set via the "withProps" method.
  *
  * @param {React.Component} Component
- * @param{presentationalOptions} [options]
- * @returns {PresentationalComponent}
+ * @returns {SubscriberComponent}
  */
-export function presentationalComponent(Component, options = presentationalDefaults) {
+export function subscribe(Component) {
 
-    const {
-        containerStateToProps,
-        actionsToProps
-    } = Object.assign({}, presentationalDefaults, options);
+    /**
+     * @typedef {function} derivePropsFromStoreComponent
+     * @param {{}} [storeComponentState] - the StoreComponent's state
+     * @param {{}} [storeComponentProps] - the StoreComponent's props
+     * @param {{}} [storeComponentActions] = the actions bound to the StoreComponent
+     * @returns {{}}
+     * @private
+     */
+    let _derivePropsFromStoreComponent = (storeComponentState, storeComponentProps, storeComponentActions) => {
+        return {};
+    };
 
-    class PresentationalComponent extends React.Component {
+    class SubscriberComponent extends React.Component {
 
         /**
-         * Get the container component and its actions out of the context.
-         * Then, pass down any state properties and actions from the container
-         * that the wrapped component has asked for as props.
+         * Get the StoreComponent out of the context.
+         * Then, use the _derivePropsFromStoreComponent function to convert its state, props, and actions
+         * into the props that the wrapped component has asked for.
          */
         render() {
 
-            const { containerComponent, actions } = this.context;
-            const { state, props } = containerComponent;
+            const { storeComponent } = this.context;
+            const { state, props, actions } = storeComponent;
 
             return React.createElement(Component, Object.assign(
-                containerStateToProps(state, props),
-                actionsToProps(actions),
+                _derivePropsFromStoreComponent(state, props, actions),
                 this.props
             ));
+        }
+
+        /**
+         * Defines the function the SubscriberComponent uses to derive props
+         * from the StoreComponent's state, props, and actions.
+         *
+         * @param {derivePropsFromStoreComponent} derivePropsFromStoreComponent
+         * @returns {SubscriberComponent}
+         */
+        static withProps(derivePropsFromStoreComponent) {
+
+            _derivePropsFromStoreComponent = derivePropsFromStoreComponent;
+            return this;
         }
 
         /**
@@ -201,5 +201,5 @@ export function presentationalComponent(Component, options = presentationalDefau
         }
     }
 
-    return PresentationalComponent;
+    return SubscriberComponent;
 }

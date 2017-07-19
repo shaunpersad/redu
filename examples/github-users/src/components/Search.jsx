@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {presentationalComponent} from 'redu';
+import {subscribe} from 'redu';
 
 
 class Search extends React.Component {
@@ -17,14 +17,14 @@ class Search extends React.Component {
 
         const searchQuery = e.currentTarget.value;
 
-        this.props.search(searchQuery); // this is the search action we defined in app.js
+        this.props.search(searchQuery); // an action derived from the StoreComponent.
     }
 
     /**
      * Below, we use "query" prop, which is actually derived from
-     * the container's "searchQuery" state.
+     * the StoreComponent's "searchQuery" state.
      *
-     * Scroll all the way down to see how this derivation happens.
+     * Examine the "subscribe" function below to see how this derivation happens.
      */
     render() {
 
@@ -45,32 +45,23 @@ class Search extends React.Component {
 }
 
 /**
- * Wrap the Search component in a presentational component.
+ * Wrap the Search component in a SubscriberComponent.
  */
-export default presentationalComponent(Search, {
+export default subscribe(Search).withProps((storeComponentState, storeComponentProps, storeComponentActions) => {
+
     /**
-     * The resulting presentational component will take this function and execute it against
-     * the container component's state and props. The resulting object will get merged into
+     * The resulting SubscriberComponent will take this function and execute it against
+     * the StoreComponent's state, props, and actions. The resulting object will get merged into
      * the Search component's props, which is how we have "query" prop,
      * without it being explicitly passed in by the Page component.
      *
-     * This is how we turned "searchQuery" from the container's state into "query"
+     * This is also how we turned "searchQuery" from the StoreComponent's state into "query"
      * in the Search component's props.
      *
      */
-    containerStateToProps: (state, props) => {
 
-        return {
-            query: state.searchQuery
-        }
-    },
-    /**
-     * Gives us a "search" prop, which maps to the "search" action in the container component.
-     */
-    actionsToProps: (actions) => {
-
-        return {
-            search: actions.search
-        };
-    }
+    return {
+        query: storeComponentState.searchQuery,
+        search: storeComponentActions.search
+    };
 });

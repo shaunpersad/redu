@@ -3,11 +3,18 @@
 import React from 'react';
 import UsersListItem from './UsersListItem';
 
-import {presentationalComponent} from 'redu';
+import {subscribe} from 'redu';
 
 
 class UsersList extends React.Component {
 
+    /**
+     * Utilizes the "usersListItems" state property from the StoreComponent,
+     * but is renamed to "users" when derived as a prop. See the "subscribe"
+     * call at the bottom to examine how this happens.
+     *
+     * @returns {Array}
+     */
     usersList() {
 
         return this.props.users.map(user => {
@@ -33,22 +40,21 @@ class UsersList extends React.Component {
 }
 
 /**
- * Wrap the UsersList component in a presentational component.
+ * Wrap the UsersList component in a SubscriberComponent.
  */
-export default presentationalComponent(UsersList, {
+export default subscribe(UsersList).withProps((storeComponentState, storeComponentProps, storeComponentActions) => {
+
     /**
-     * The resulting presentational component will take this function and execute it against
-     * the container component's state and props. The resulting object will get merged into
+     * The resulting SubscriberComponent will take this function and execute it against
+     * the StoreComponent's state, props, and actions. The resulting object will get merged into
      * the UsersList component's props, which is how we have the "users" prop,
      * without being explicitly passed in by the Page component.
      *
-     * This is how we turned "usersListItems" from the container's state into "users"
+     * This is also how we turned "usersListItems" from the StoreComponent's state into "users"
      * in the UsersList component's props.
      */
-    containerStateToProps: (state, props) => {
 
-        return {
-            users: state.usersListItems || []
-        }
+    return {
+        users: storeComponentState.usersListItems || []
     }
 });

@@ -2,11 +2,10 @@
 
 import React from 'react';
 
-import {presentationalComponent} from 'redu';
+import {subscribe} from 'redu';
 
 /**
- * This component illustrates that not all state needs to be tracked by the container component.
- * Some state is best tracked by the component's themselves.
+ * This component illustrates that not all state needs to be tracked by the StoreComponent.
  *
  * It also illustrates that passing down props the regular way
  * (i.e. explicitly, from the parent) is unhindered.
@@ -18,7 +17,7 @@ class UsersListItem extends React.Component {
         super(props);
 
         this.state = {
-            clicked: false // not all state needs to go into the container component.
+            clicked: false // not all state needs to go into the StoreComponent.
         };
 
         this.onClickOnUser = this.onClickOnUser.bind(this);
@@ -32,7 +31,7 @@ class UsersListItem extends React.Component {
             clicked: true
         }, () => {
 
-            this.props.displayUser(this.props.user);
+            this.props.displayUser(this.props.user); // an action derived from the StoreComponent.
         });
     }
 
@@ -73,16 +72,15 @@ class UsersListItem extends React.Component {
 }
 
 /**
- * Wrap the UsersListItem component in a presentational component.
+ * Wrap the UsersListItem component in a SubscriberComponent.
  */
-export default presentationalComponent(UsersListItem, {
-    /**
-     * Gives us a "displayUser" prop, which maps to the "displayUser" action in the container component.
-     */
-    actionsToProps: (actions) => {
+export default subscribe(UsersListItem).withProps((storeComponentState, storeComponentProps, storeComponentActions) => {
 
-        return {
-            displayUser: actions.displayUser
-        };
-    }
+    /**
+     * Gives us a "displayUser" prop, which maps to the "displayUser" action in the StoreComponent.
+     */
+
+    return {
+        displayUser: storeComponentActions.displayUser
+    };
 });

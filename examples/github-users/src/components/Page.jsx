@@ -7,6 +7,8 @@ import Status from './Status';
 import UsersList from './UsersList';
 import User from './User';
 
+import {subscribe} from 'redu';
+
 /**
  * Our top-level component. Using React's "functional" component style:
  * https://facebook.github.io/react/docs/components-and-props.html#functional-and-class-components
@@ -15,7 +17,7 @@ import User from './User';
  *
  * Notice that none of the child components have props directly passed to them.
  * It doesn't have to be this way, but we're trying to show that the child components
- * will have access to the container's state and actions as props regardless of what's
+ * will have access to the StoreComponent's state, props, and actions as props regardless of what's
  * manually passed to them.
  *
  */
@@ -52,4 +54,4 @@ function Page(props) {
     );
 }
 
-export default Page;
+export default subscribe(Page);

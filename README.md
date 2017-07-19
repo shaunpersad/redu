@@ -2,7 +2,7 @@
 Redux made simpler.
 
 ## Simpler than simple?
-Redux is already simple.  At least, that's the hope.  The reality is that while action creators, actions, and reducers 
+Redux is already simple.  At least, that's the idea.  The reality is that while action creators, actions, and reducers 
 are simple, open-ended concepts, their implementations often are not.  What _is_ simple, is React's component-level state 
 management, where events trigger action functions, which in turn call setState, to update that component's state.  
 
@@ -24,7 +24,7 @@ A presentational component wraps a descendant component, and links it to the con
 Both the top-level and presentational components can pull in application state properties from the container component as props.
 They can also pull in action functions that can request state changes on the container component.
 
-### "Visually" speaking...
+### Visually speaking...
 
 Let's say my app looks like this:
 ```jsx harmony
@@ -39,7 +39,7 @@ first to the ChildComponent, then to the GrandChildComponent. Also, if you wante
 state from the GrandChildComponent, you'd have to pass down an action function in the same manner, so that the 
 GrandChildComponent would be able to call it.
 
-With Redu, the situation looks like this:
+With Redu, the situation boils down to something like this:
 ```jsx harmony
 <ContainerComponent wraps={TopLevelComponent}>
     <PresentationalComponent wraps={ChildComponent}>
