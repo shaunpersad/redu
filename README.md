@@ -6,7 +6,27 @@ Redux is already simple.  At least, that's the idea.  The reality is that while 
 are simple, open-ended concepts, their implementations often are not, and often leaves us with a lot of boilerplate.
 
 What _is_ simple, is React's component-level state management, where events trigger action functions, which in turn call 
-setState, to update that component's state.  
+setState, to update that component's state:
+```jsx harmony
+class Counter extends Component {
+  state = { value: 0 };
+
+  increment = () => { // action function
+    this.setState(prevState => ({
+      value: prevState.value + 1
+    }));
+  };
+  
+  render() {
+    return (
+      <div>
+        {this.state.value}
+        <button onClick={this.increment}>+</button>
+      </div>
+    )
+  }
+}
+```
 
 No reducers, no string constants, just _event_ => _action function_ => _setState_.
 
@@ -20,11 +40,10 @@ Redu is comprised of two functions: `stateManagerOf(Component)`, and `subscribe(
 
 Both functions take in a `React.Component`, and create and return wrapper components around them.
 
-- `stateManagerOf(Component)` creates and returns a `StoreComponent`.
+- `stateManagerOf(Component)` creates and returns a `StoreComponent` wrapped around the supplied `Component`.
     - `StoreComponents` wrap your top-level component and manages the application-level state.
-- `subscribe(Component)` creates and returns a `SubscriberComponent`.
-    - `SubscriberComponents` can derive their props directly out of the `StoreComponent`'s state, props, and action functions.
-    - Action function calls are how `SubscriberComponents` can request application-level state changes.
+- `subscribe(Component)` creates and returns a `SubscriberComponent` wrapped around the supplied `Component`.
+    - `SubscriberComponents` have direct access to the `StoreComponent`'s state, props, and action functions, and can pass them down to the supplied `Component` as props.
 
 ### Visually speaking...
 
@@ -36,10 +55,10 @@ Let's say my app looks like this:
     </ChildComponent>
 </TopLevelComponent>
 ```
-If the GrandChildComponent wanted to utilize props or state from the TopLevelComponent, you'd have to pass them down
-first to the ChildComponent, then to the GrandChildComponent. Also, if you wanted to modify the TopLevelComponent's
-state from the GrandChildComponent, you'd have to pass down an action function in the same manner, so that the 
-GrandChildComponent would be able to call it.
+If the `GrandChildComponent` wanted to utilize props or state from the `TopLevelComponent`, you'd have to pass them down
+first to the `ChildComponent`, then to the `GrandChildComponent`. Also, if you wanted to modify the `TopLevelComponent`'s
+state from the `GrandChildComponent`, you'd have to pass down an action function in the same manner, so that the 
+`GrandChildComponent` would be able to call it.
 
 With Redu, the situation can be expressed similar to this:
 ```jsx harmony
@@ -51,21 +70,17 @@ With Redu, the situation can be expressed similar to this:
     </SubscriberComponent>
 </StoreComponent>
 ```
-Where "wraps" translates to this:
+Where "wraps" renders to this:
 ```jsx harmony
 <SubscriberComponent>
     <WrappedComponent />
 </SubscriberComponent>
 ```
-Redu leverages _composition_, meaning that the wrapper components that it generates will render the component 
-they wrap. The advantage of this is that there is an intermediary step at each render, where we can pass in props.
+With this new setup, any component wrapped in a `SubscriberComponent` will be able to request any of the application-level state, props, or action functions
+from the `StoreComponent` that it needs.
 
-While this seems more complex, keep in mind that the `StoreComponents` and `SubscriberComponents` are generated for you,
-and so you don't have to think about manually creating the layers. Furthermore, not every component in your app needs to be wrapped,
-only those that need to derive props or action functions out of the `StoreComponent` need to be wrapped. 
-
-As a simplified illustration of how composition works, the last `SubscriberComponent` in the chain will render the 
-`GrandChildComponent` that it wraps:
+As a simplified illustration of how this composition works, the last `SubscriberComponent` in the chain will render the 
+`GrandChildComponent` that it wraps, and pass down any requested application-level state, props, or action functions as props:
 ```jsx harmony
 class SubscriberComponent extends React.Component {
     render() {
@@ -73,11 +88,7 @@ class SubscriberComponent extends React.Component {
     }
 }
 ```
-This composition becomes useful when we realize that `StoreComponents` and `SubscriberComponents` are linked together using React's 
-[context](https://facebook.github.io/react/docs/context.html#how-to-use-context) mechanism, allowing them to share common information while bypassing the need to pass down props endlessly down the chain. 
 
-Therefore, `TopLevelComponent`, `ChildComponent` and `GrandChildComponent` all have a chance to derive props from the 
-`StoreComponent`'s state, props, and action functions, since their `SubscriberComponents` are linked to it by the `context`.
 
 
 ## Example

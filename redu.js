@@ -8,8 +8,8 @@
  *
  * StoreComponents wrap your top-level component and manages the application-level state.
  *
- * SubscriberComponents can derive their props directly out of the StoreComponent's state, props, and action functions.
- * Action function calls are how SubscriberComponents can request application-level state changes.
+ * SubscriberComponents can derive props directly out of the StoreComponent's state, props, and action functions,
+ * and pass them down to the components that they wrap.
  *
  * SubscriberComponents are linked to a StoreComponent via React's "context" feature:
  * https://facebook.github.io/react/docs/context.html
