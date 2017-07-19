@@ -45,7 +45,7 @@ function User(props) {
 /**
  * Wrap the User component in a SubscriberComponent.
  */
-export default subscribe(User).withProps((storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(User, (storeComponentState, storeComponentProps, storeComponentActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against

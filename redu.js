@@ -143,21 +143,10 @@ export function stateManagerOf(Component) {
  * which can be set via the "withProps" method.
  *
  * @param {React.Component} Component
+ * @param {function} derivePropsFromStore
  * @returns {SubscriberComponent}
  */
-export function subscribe(Component) {
-
-    /**
-     * @typedef {function} derivePropsFromStoreComponent
-     * @param {{}} [storeComponentState] - the StoreComponent's state
-     * @param {{}} [storeComponentProps] - the StoreComponent's props
-     * @param {{}} [storeComponentActions] = the actions bound to the StoreComponent
-     * @returns {{}}
-     * @private
-     */
-    let _derivePropsFromStoreComponent = (storeComponentState, storeComponentProps, storeComponentActions) => {
-        return {};
-    };
+export function subscribe(Component, derivePropsFromStore = (storeComponentState, storeComponentProps, storeComponentActions) => ({})) {
 
     class SubscriberComponent extends React.Component {
 
@@ -169,25 +158,17 @@ export function subscribe(Component) {
         render() {
 
             const { storeComponent } = this.context;
+
+            if (!storeComponent) {
+                throw new Error('No StoreComponent found as a parent of this SubscriberComponent.');
+            }
+
             const { state, props, actions } = storeComponent;
 
             return React.createElement(Component, Object.assign(
-                _derivePropsFromStoreComponent(state, props, actions),
+                derivePropsFromStore(state, props, actions),
                 this.props
             ));
-        }
-
-        /**
-         * Defines the function the SubscriberComponent uses to derive props
-         * from the StoreComponent's state, props, and actions.
-         *
-         * @param {derivePropsFromStoreComponent} derivePropsFromStoreComponent
-         * @returns {SubscriberComponent}
-         */
-        static withProps(derivePropsFromStoreComponent) {
-
-            _derivePropsFromStoreComponent = derivePropsFromStoreComponent;
-            return this;
         }
 
         /**

@@ -45,7 +45,7 @@ class Status extends React.Component {
 /**
  * Wrap the Status component in a SubscriberComponent.
  */
-export default subscribe(Status).withProps((storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(Status, (storeComponentState, storeComponentProps, storeComponentActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against

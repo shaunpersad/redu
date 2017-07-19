@@ -42,7 +42,7 @@ class UsersList extends React.Component {
 /**
  * Wrap the UsersList component in a SubscriberComponent.
  */
-export default subscribe(UsersList).withProps((storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(UsersList, (storeComponentState, storeComponentProps, storeComponentActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against

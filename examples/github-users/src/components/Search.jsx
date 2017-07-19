@@ -47,7 +47,7 @@ class Search extends React.Component {
 /**
  * Wrap the Search component in a SubscriberComponent.
  */
-export default subscribe(Search).withProps((storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(Search, (storeComponentState, storeComponentProps, storeComponentActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against
