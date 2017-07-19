@@ -54,4 +54,11 @@ function Page(props) {
     );
 }
 
+/**
+ * Wraps the Page component in a SubscriberComponent.
+ *
+ * Note, however, that the Page component is not actually using any props derived out of the StoreComponent,
+ * so we did not need to wrap it. All of its child components that are SubscriberComponents
+ * would've still functioned regardless.
+ */
 export default subscribe(Page);
