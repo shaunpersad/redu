@@ -30,13 +30,13 @@ class Counter extends Component {
 
 No reducers, no string constants, just _event_ => _action function_ => _setState_.
 
-Redu performs this exact same flow, but at an application-wide level, where a single component houses your application 
-state, and any of its descendant components may derive props from its state, or perform actions to request 
+Redu performs this exact same flow, but at an application-wide level, where a single `StoreComponent` houses your application 
+state, and any of its descendant `SubscriberComponents` may extract props from its state, or perform actions to request 
 application state changes.  This simplicity is accomplished in less than 60 lines of code, using most of what React 
 natively offers.
 
 ## Theory
-Redu is comprised of two functions: `stateManagerOf(Component)`, and `subscribe(Component)`.
+Redu is comprised of just two functions: `stateManagerOf(Component)`, and `subscribe(Component)`.
 
 Both functions take in a `React.Component`, and create and return wrapper components around them.
 
