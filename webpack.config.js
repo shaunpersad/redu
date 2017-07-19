@@ -2,6 +2,7 @@ const path = require('path');
 module.exports = {
     entry: {
         ['github-users']: './examples/github-users/src/app.js',
+        ['readme-redu']: './examples/readme-redu/src/app.js',
         ['readme-vanilla-react']: './examples/readme-vanilla-react/src/app.js'
     },
     output: {

@@ -94,7 +94,186 @@ class SubscriberComponent extends React.Component {
 
 
 ## Example
-Consider the following example:
+Consider the following example, where we must pass down both an application-level state property (`selectedColor`),
+as well as an action function (`changeColor`), all the way to the grand-child component:
 ### Vanilla React
+```js
+// app.js
+import ColorList from './components/ColorList';
 
+const props = {
+    colors: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+};
+
+ReactDOM.render(
+    React.createElement(ColorList, props),
+    document.getElementById('root')
+);
+```
+```jsx harmony
+// ColorList.jsx
+import Color from './Color';
+
+class ColorList extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { selectedColor: props.colors[0] };
+        this.changeColor = this.changeColor.bind(this);
+    }
+
+    changeColor(color) {
+        this.setState({selectedColor: color});
+    }
+
+    render() {
+        return (
+            <div>
+                <p>
+                    The selected color is {this.state.selectedColor}
+                </p>
+                <div>
+                    {this.props.colors.map(color =>
+                        <Color
+                            key={color}
+                            color={color}
+                            changeColor={this.changeColor}
+                            selectedColor={this.state.selectedColor}
+                        />
+                    )}
+                </div>
+            </div>
+        );
+    }
+}
+
+export default ColorList;
+```
+```jsx harmony
+// Color.jsx
+import ColorOptions from './ColorOptions';
+
+function Color(props) {
+
+    return (
+        <div>
+            <span>This color is {props.color}</span>
+            <ColorOptions
+                color={props.color}
+                changeColor={props.changeColor}
+                selectedColor={props.selectedColor}
+            />
+        </div>
+    );
+}
+
+export default Color;
+```
+```jsx harmony
+function ColorOptions(props) {
+    return (
+        <div>
+            <span>Replace {props.selectedColor} with {props.color}?</span>
+            <button onClick={e => props.changeColor(props.color)}>yes</button>
+        </div>
+    );
+}
+
+export default ColorOptions;
+```
 ### Redu
+Let's "redu" it...
+```js
+// app.js
+import { stateManagerOf } from 'redu';
+
+import ColorList from './components/ColorList';
+
+const props = {
+    colors: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+};
+
+const initialState = {
+    selectedColor: props.colors[0]
+};
+
+const actions = {
+    changeColor: function changeColor(color) {
+        this.setState({
+            selectedColor: color
+        });
+    }
+};
+
+const App = stateManagerOf(ColorList).withInitialState(initialState).withActions(actions);
+
+ReactDOM.render(
+    React.createElement(App, props),
+    document.getElementById('root')
+);
+```
+```jsx harmony
+// ColorList.jsx
+import { subscribe } from 'redu';
+import Color from './Color';
+
+function ColorList(props) {
+
+    return (
+        <div>
+            <p>
+                The selected color is {props.selectedColor}
+            </p>
+            <div>
+                {this.props.colors.map(color =>
+                    <Color key={color} color={color} />
+                )}
+            </div>
+        </div>
+    );
+}
+
+export default subscribe(ColorList, (storeComponentState, storeComponentProps) => {
+
+    return {
+        selectedColor: storeComponentState.selectedColor,
+        colors: storeComponentProps.colors
+    };
+});
+```
+```jsx harmony
+// Color.jsx
+import ColorOptions from './ColorOptions';
+
+function Color(props) {
+
+    return (
+        <div>
+            <span>This color is {props.color}</span>
+            <ColorOptions color={props.color} />
+        </div>
+    );
+}
+
+export default Color;
+```
+```jsx harmony
+import { subscribe } from 'redu';
+
+function ColorOptions(props) {
+    return (
+        <div>
+            <span>Replace {props.selectedColor} with {props.color}?</span>
+            <button onClick={e => props.changeColor(props.color)}>yes</button>
+        </div>
+    );
+}
+
+export default subscribe(ColorOptions, (storeComponentState, storeComponentProps, storeComponentActions) => {
+
+    return {
+        selectedColor: storeComponentState.selectedColor,
+        changeColor: storeComponentActions.changeColor
+    };
+});
+```
