@@ -6,7 +6,7 @@ Redux is already simple.  At least, that's the idea.  The reality is that while 
 are simple, open-ended concepts, their implementations often are not, and often leaves us with a lot of boilerplate.
 
 What _is_ simple, is React's component-level state management, where events trigger action functions, which in turn call 
-setState, to update that component's state:
+`setState`, to update that component's state:
 ```jsx harmony
 class Counter extends Component {
   constructor(props) {
