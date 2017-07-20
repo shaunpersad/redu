@@ -139,16 +139,16 @@ export function stateManagerOf(Component) {
  * Creates a SubscriberComponent that wraps the given component.
  *
  * All SubscriberComponents have the ability to derive any props they need out of
- * this StoreComponent's state, props, and actions, by supplying a "derivePropsFromStoreComponent" function,
+ * this StoreComponent's state, props, and actions, by supplying a "toProps" function,
  * which can be set via the "withProps" method.
  *
  * @param {React.Component} Component
- * @param {function} derivePropsFromStoreComponent
+ * @param {function} toProps
  * @returns {SubscriberComponent}
  */
 export function subscribe(
     Component,
-    derivePropsFromStoreComponent = (storeComponentState, storeComponentProps, storeComponentActions) => {
+    toProps = (storeComponentState, storeComponentProps, storeComponentActions) => {
         return {};
     }
 ) {
@@ -157,7 +157,7 @@ export function subscribe(
 
         /**
          * Get the StoreComponent out of the context.
-         * Then, use the derivePropsFromStoreComponent function to convert its state, props, and actions
+         * Then, use the toProps function to convert its state, props, and actions
          * into the props that the wrapped component has asked for.
          */
         render() {
@@ -171,7 +171,7 @@ export function subscribe(
             const { state, props, actions } = storeComponent;
 
             return React.createElement(Component, Object.assign(
-                derivePropsFromStoreComponent(state, props, actions),
+                toProps(state, props, actions),
                 this.props
             ));
         }

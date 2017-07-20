@@ -38,14 +38,15 @@ your application-level state, and any of its descendant `SubscriberComponents` m
 to request application-level state changes.
 
 ## Theory
-Redu is comprised of just two functions: `stateManagerOf(Component)`, and `subscribe(Component)`.
+Redu is comprised of just two functions: `stateManagerOf(Component)`, and `subscribe(Component, toProps)`.
 
 Both functions take in a `React.Component`, and create and return wrapper components around them.
 
 - `stateManagerOf(Component)` creates and returns a `StoreComponent` wrapped around the supplied `Component`.
     - `StoreComponents` wrap your top-level component and manages the application-level state.
-- `subscribe(Component)` creates and returns a `SubscriberComponent` wrapped around the supplied `Component`.
-    - `SubscriberComponents` have direct access to the `StoreComponent`'s state, props, and action functions, and can pass them down to the supplied `Component` as props.
+- `subscribe(Component, toProps)` creates and returns a `SubscriberComponent` wrapped around the supplied `Component`.
+    - `SubscriberComponents` utilize the `StoreComponent`'s state, props, and action functions to create props for the 
+    supplied `Component`, specified by the supplied `toProps` function.
 
 ### Visually speaking...
 
