@@ -11,13 +11,13 @@ What _is_ simple, is React's component-level state management, where events trig
 class Counter extends Component {
   constructor(props) {
       super(props);
-      this.state = { value: 0 };
+      this.state = { value: 0 }; // initial state
       this.increment = this.increment.bind(this);
   }
   
-  increment() {
+  increment() { // action function, which calls this.setState
     this.setState(prevState => ({
-        value: prevState.value + 1
+        value: prevState.value + 1 // hooray, the state is updated!
     }));       
   }
   
