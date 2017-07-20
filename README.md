@@ -12,12 +12,13 @@ class Counter extends Component {
   constructor(props) {
       super(props);
       this.state = { value: 0 };
-      
-      this.increment = () => { // action function
-        this.setState(prevState => ({
-          value: prevState.value + 1
-        }));          
-      }
+      this.increment = this.increment.bind(this);
+  }
+  
+  increment() {
+    this.setState(prevState => ({
+        value: prevState.value + 1
+    }));       
   }
   
   render() {
