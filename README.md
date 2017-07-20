@@ -63,30 +63,25 @@ first to the `ChildComponent`, then to the `GrandChildComponent`. Also, if you w
 state from the `GrandChildComponent`, you'd have to pass down an action function in the same manner, so that the 
 `GrandChildComponent` would be able to call it.
 
-With Redu, the situation can be expressed similar to this:
+With Redu, the `GrandChildComponent` gets wrapped in a `SubscriberComponent`, which can pass down anything that it needs
+from the `StoreComponent` as props:
 ```jsx harmony
 <StoreComponent>
-    <SubscriberComponent wraps="TopLevelComponent">
-        <SubscriberComponent wraps="ChildComponent">
-            <SubscriberComponent wraps="GrandChildComponent" />
-        </SubscriberComponent>
-    </SubscriberComponent>
+    <TopLevelComponent>
+        <ChildComponent>
+            <SubscriberComponent>
+                <GrandChildComponent />
+            </SubscriberComponent>
+        </ChildComponent>
+    </TopLevelComponent>
 </StoreComponent>
 ```
-Where "wraps" renders to this:
-```jsx harmony
-<SubscriberComponent>
-    <WrappedComponent />
-</SubscriberComponent>
-```
-With this new setup, any component wrapped in a `SubscriberComponent` will be able to request any of the application-level state, props, or action functions
-from the `StoreComponent` that it needs.
-
-As a simplified illustration of how this composition works, the last `SubscriberComponent` in the chain will render the 
+As a simplified illustration of how this composition works, the `SubscriberComponent` will render the 
 `GrandChildComponent` that it wraps, and pass down any requested application-level state, props, or action functions as props:
 ```jsx harmony
 class SubscriberComponent extends React.Component {
     render() {
+        const propsDerivedFromStoreComponent = toProps(storeState, storeProps, storeActions);
         return <GrandChildComponent {...propsDerivedFromStoreComponent} {...this.props} />
     }
 }
