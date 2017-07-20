@@ -64,8 +64,8 @@ state from the `GrandChildComponent`, you'd have to pass down an action function
 `GrandChildComponent` would be able to call it.
 
 With Redu, the `TopLevelComponent` can store its application-level state in the `StoreComponent`, and the 
-`GrandChildComponent` gets wrapped in a `SubscriberComponent`, which can pass down anything that it needs
-from the `StoreComponent` as props:
+`GrandChildComponent` gets wrapped in a `SubscriberComponent`, which can pass down anything to the `GrandChildComponent`
+that it needs from the `StoreComponent` as props:
 ```jsx harmony
 <StoreComponent>
     <TopLevelComponent>
