@@ -63,7 +63,8 @@ first to the `ChildComponent`, then to the `GrandChildComponent`. Also, if you w
 state from the `GrandChildComponent`, you'd have to pass down an action function in the same manner, so that the 
 `GrandChildComponent` would be able to call it.
 
-With Redu, the `GrandChildComponent` gets wrapped in a `SubscriberComponent`, which can pass down anything that it needs
+With Redu, the `TopLevelComponent` can store its application-level state in the `StoreComponent`, and the 
+`GrandChildComponent` gets wrapped in a `SubscriberComponent`, which can pass down anything that it needs
 from the `StoreComponent` as props:
 ```jsx harmony
 <StoreComponent>
