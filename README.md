@@ -95,7 +95,8 @@ Both functions take in a `React.Component`, and create and return wrapper compon
 The following is a simple color-picker, where we display a list of colors, and allow a single color to be selected.
 
 In this example, we must pass down both an application-level state property (`selectedColor`),
-as well as an action function (`changeColor`), all the way to the grand-child component:
+as well as an action function (`changeColor`), all the way from the `ColorList` top-level component to the `ColorOptions`
+grand-child components:
 
 #### Vanilla React
 ```js
