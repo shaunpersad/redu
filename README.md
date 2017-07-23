@@ -6,7 +6,7 @@ As far as state management goes, Redux is already simple.  At least, that's the 
 creators, actions, and reducers are simple, open-ended concepts, their implementations can become unwieldy, and often 
 leaves us with a lot of boilerplate.
 
-What _is_ simple, is React's component-level state management, where events trigger action functions, which in turn call 
+What _is_ simple, is React's **component-level** state management, where events trigger action functions, which in turn call 
 `setState`, to update that component's state:
 ```jsx harmony
 class Counter extends Component {
@@ -35,7 +35,7 @@ class Counter extends Component {
 
 No reducers, no string constants, just _event_ => _action function_ => _setState_.
 
-Redu performs this exact same flow, but at an application-wide level, where a single `StoreComponent's` state acts as 
+Redu performs this exact same flow, but at an **application level**, where a single `StoreComponent's` state acts as 
 your application-level state, and any of its descendant `SubscriberComponents` may derive props from this state, which 
 can include action functions to request application-level state changes.
 
