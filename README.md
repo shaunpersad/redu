@@ -6,7 +6,7 @@ As far as state management goes, Redux is already simple.  At least, that's the 
 creators, actions, and reducers are simple, open-ended concepts, their implementations can become unwieldy, and often 
 leaves us with a lot of boilerplate.
 
-What _is_ simple, is React's **component-level** state management, where events trigger action functions, which in turn call 
+What _is_ simple, is React's built-in **component-level** state management, where events trigger action functions, which in turn call 
 `setState`, to update that component's state:
 ```jsx harmony
 class Counter extends Component {
