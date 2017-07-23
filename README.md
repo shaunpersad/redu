@@ -1,5 +1,5 @@
 # Redu
-Simple application-level React state management.
+Simple application-level state management for React apps.
 
 ## Simpler than simple?
 As far as state management solutions go, Redux is already simple.  At least, that's the idea.  The reality is that while 
