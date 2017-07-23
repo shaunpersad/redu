@@ -98,7 +98,7 @@ In this example, we must pass down both an application-level state property (`se
 as well as an action function (`changeColor`), all the way from the `ColorList` top-level component to the `ColorOptions`
 grand-child components:
 
-#### Vanilla React
+#### The "Vanilla" React version
 ```js
 // app.js, the "entrypoint" of the app.
 import ColorList from './components/ColorList';
@@ -184,7 +184,7 @@ function ColorOptions(props) {
 
 export default ColorOptions;
 ```
-#### Redu
+#### The Redu version
 Let's "redu" it. Our goal will be to eliminate the number of props that we need to pass down from the `ColorList`  to
 the `ColorOptions` components.
 
