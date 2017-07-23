@@ -39,19 +39,7 @@ Redu performs this exact same flow, but at an **application level**, where a sin
 your application-level state, and any of its descendant `SubscriberComponents` may derive props from this state, which 
 can include action functions to request application-level state changes.
 
-## Theory
-Redu is comprised of just two functions: `stateManagerOf(Component)`, and `subscribe(Component, toProps)`.
-
-Both functions take in a `React.Component`, and create and return wrapper components around them.
-
-- `stateManagerOf(Component)` creates and returns a `StoreComponent` wrapped around the supplied `Component`.
-    - `StoreComponents` wrap your top-level component and manages the application-level state.
-- `subscribe(Component, toProps)` creates and returns a `SubscriberComponent` wrapped around the supplied `Component`.
-    - `SubscriberComponents` utilize the `StoreComponent`'s state, props, and action functions to create props for the 
-    supplied `Component`, specified by the supplied `toProps` function.
-
-### Visually speaking...
-
+## What problem does Redu solve?
 Let's say my app looks like this:
 ```jsx harmony
 <TopLevelComponent>
@@ -65,9 +53,9 @@ first to the `ChildComponent`, then to the `GrandChildComponent`. Also, if you w
 state from the `GrandChildComponent`, you'd have to pass down an action function in the same manner, so that the 
 `GrandChildComponent` would be able to call it.
 
-With Redu, the `TopLevelComponent` can store its application-level state in the `StoreComponent`, and the 
-`GrandChildComponent` gets wrapped in a `SubscriberComponent`, which can pass down anything to the `GrandChildComponent`
-that it needs from the `StoreComponent` as props:
+With Redu, the application-level state is stored in the `StoreComponent`, and the `GrandChildComponent` gets wrapped in 
+a `SubscriberComponent`, which can pass down anything to the `GrandChildComponent` that it needs from the `StoreComponent` 
+as props:
 ```jsx harmony
 <StoreComponent>
     <TopLevelComponent>
@@ -90,12 +78,24 @@ class SubscriberComponent extends React.Component {
 }
 ```
 
+## Usage
+Redu is comprised of just two functions: `stateManagerOf(Component)`, and `subscribe(Component, toProps)`.
 
+Both functions take in a `React.Component`, and create and return wrapper components around them.
 
-## Example
+- `stateManagerOf(Component)` creates and returns a `StoreComponent` wrapped around the supplied `Component`.
+    - `StoreComponents` wrap your top-level component and manages the application-level state.
+    - `StoreComponents` also give you the `withInitialState(initialState)` static method, which will set it's initial state,
+    and also the `withActions(actions)` static method, which will set the actions that can modify the `StoreComponent`'s state.
+- `subscribe(Component, toProps)` creates and returns a `SubscriberComponent` wrapped around the supplied `Component`.
+    - `SubscriberComponents` utilize the `StoreComponent`'s state, props, and action functions to create props for the 
+    supplied `Component`, specified by the supplied `toProps` function.
+
+### Example
 Consider the following example, where we must pass down both an application-level state property (`selectedColor`),
 as well as an action function (`changeColor`), all the way to the grand-child component:
-### Vanilla React
+
+#### Vanilla React
 ```js
 // app.js
 import ColorList from './components/ColorList';
@@ -180,7 +180,7 @@ function ColorOptions(props) {
 
 export default ColorOptions;
 ```
-### Redu
+#### Redu
 Let's "redu" it...
 ```js
 // app.js
