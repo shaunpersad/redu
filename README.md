@@ -84,6 +84,15 @@ class SubscriberComponent extends React.Component {
 
 ## Usage
 
+### Installation
+
+```bash
+npm install redu
+```
+
+
+### API
+
 Redu is comprised of just two functions: `stateManagerOf(Component)`, and `subscribe(Component, toProps)`.
 
 Both functions take in a `React.Component`, and create and return wrapper components around them.
