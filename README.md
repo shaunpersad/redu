@@ -2,6 +2,7 @@
 Simple application-level state management for React apps.
 
 ## Simpler than simple?
+
 As far as state management solutions go, Redux is already simple.  At least, that's the idea.  The reality is that while 
 action creators, actions, and reducers are simple, open-ended concepts, their implementations can become unwieldy, and 
 often leaves us with a lot of boilerplate.
@@ -39,7 +40,9 @@ Redu performs this exact same flow, but at an **application level**, where a sin
 your application-level state, and any of its descendant `SubscriberComponents` may derive props from this state, which 
 can include action functions to request application-level state changes.
 
+
 ## What problem does Redu solve?
+
 Let's say my app looks like this:
 ```jsx harmony
 <TopLevelComponent>
@@ -78,7 +81,9 @@ class SubscriberComponent extends React.Component {
 }
 ```
 
+
 ## Usage
+
 Redu is comprised of just two functions: `stateManagerOf(Component)`, and `subscribe(Component, toProps)`.
 
 Both functions take in a `React.Component`, and create and return wrapper components around them.
@@ -91,14 +96,18 @@ Both functions take in a `React.Component`, and create and return wrapper compon
     - `SubscriberComponents` utilize the `StoreComponent`'s state, props, and action functions to create props for the 
     supplied `Component`, specified by the supplied `toProps` function.
 
+
 ### Example
+
 The following is a simple color-picker, where we display a list of colors, and allow a single color to be selected.
 
 In this example, we must pass down both an application-level state property (`selectedColor`),
 as well as an action function (`changeColor`), all the way from the `ColorList` top-level component to the `ColorOptions`
 grand-child components:
 
+
 #### The "Vanilla" React version
+
 ```js
 // app.js, the "entrypoint" of the app.
 import ColorList from './components/ColorList';
@@ -184,7 +193,10 @@ function ColorOptions(props) {
 
 export default ColorOptions;
 ```
+
+
 #### The Redu version
+
 Let's "redu" it. Our goal will be to eliminate the number of props that we need to pass down from the `ColorList`  to
 the `ColorOptions` components.
 
