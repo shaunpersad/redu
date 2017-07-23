@@ -86,18 +86,20 @@ Both functions take in a `React.Component`, and create and return wrapper compon
 - `stateManagerOf(Component)` creates and returns a `StoreComponent` wrapped around the supplied `Component`.
     - `StoreComponents` wrap your top-level component and manages the application-level state.
     - `StoreComponents` also give you the `withInitialState(initialState)` static method, which will set it's initial state,
-    and also the `withActions(actions)` static method, which will set the actions that can modify the `StoreComponent`'s state.
+    and also the `withActions(actions)` static method, which will set the action functions that can modify the `StoreComponent`'s state.
 - `subscribe(Component, toProps)` creates and returns a `SubscriberComponent` wrapped around the supplied `Component`.
     - `SubscriberComponents` utilize the `StoreComponent`'s state, props, and action functions to create props for the 
     supplied `Component`, specified by the supplied `toProps` function.
 
 ### Example
-Consider the following example, where we must pass down both an application-level state property (`selectedColor`),
+The following is a simple color-picker, where we display a list of colors, and allow a single color to be selected.
+
+In this example, we must pass down both an application-level state property (`selectedColor`),
 as well as an action function (`changeColor`), all the way to the grand-child component:
 
 #### Vanilla React
 ```js
-// app.js
+// app.js, the "entrypoint" of the app.
 import ColorList from './components/ColorList';
 
 const props = {
@@ -110,7 +112,7 @@ ReactDOM.render(
 );
 ```
 ```jsx harmony
-// ColorList.jsx
+// ColorList.jsx, displays the list of colors
 import Color from './Color';
 
 class ColorList extends React.Component {
@@ -149,7 +151,7 @@ class ColorList extends React.Component {
 export default ColorList;
 ```
 ```jsx harmony
-// Color.jsx
+// Color.jsx, each list item
 import ColorOptions from './ColorOptions';
 
 function Color(props) {
@@ -169,6 +171,7 @@ function Color(props) {
 export default Color;
 ```
 ```jsx harmony
+// ColorOptions.jsx, displays the relevant options for a particular color.
 function ColorOptions(props) {
     return (
         <div>
@@ -181,9 +184,14 @@ function ColorOptions(props) {
 export default ColorOptions;
 ```
 #### Redu
-Let's "redu" it...
+Let's "redu" it. Our goal will be to eliminate the number of props that we need to pass down from the `ColorList`  to
+the `ColorOptions` components.
+
+To accomplish this, we will move all of the shared application-level state and action functions out of the `ColorList`
+component and into the `StoreComponent`. We will then subscribe the `ColorList` and the `ColorOptions` to the
+`StoreComponent` in order to derive what we need from it.
 ```js
-// app.js
+// app.js, where we will set up and create the StoreComponent, by wrapping the ColorList.
 import { stateManagerOf } from 'redu';
 
 import ColorList from './components/ColorList';
@@ -204,15 +212,15 @@ const actions = {
     }
 };
 
-const App = stateManagerOf(ColorList).withInitialState(initialState).withActions(actions);
+const StoreComponent = stateManagerOf(ColorList).withInitialState(initialState).withActions(actions);
 
 ReactDOM.render(
-    React.createElement(App, props),
+    React.createElement(StoreComponent, props),
     document.getElementById('root')
 );
 ```
 ```jsx harmony
-// ColorList.jsx
+// ColorList.jsx, we are now just passing down the color to the Color component.
 import { subscribe } from 'redu';
 import Color from './Color';
 
@@ -241,7 +249,7 @@ export default subscribe(ColorList, (storeComponentState, storeComponentProps) =
 });
 ```
 ```jsx harmony
-// Color.jsx
+// Color.jsx, we are no longer threading through the "selectedColor" and "changeColor" props.
 import ColorOptions from './ColorOptions';
 
 function Color(props) {
@@ -257,6 +265,7 @@ function Color(props) {
 export default Color;
 ```
 ```jsx harmony
+// ColorOptions.jsx, we can get the application-level state and action functions directly from the StateComponent now.
 import { subscribe } from 'redu';
 
 function ColorOptions(props) {

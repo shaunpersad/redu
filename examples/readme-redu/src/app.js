@@ -22,9 +22,9 @@ const actions = {
     }
 };
 
-const App = stateManagerOf(ColorList).withInitialState(initialState).withActions(actions);
+const StoreComponent = stateManagerOf(ColorList).withInitialState(initialState).withActions(actions);
 
 ReactDOM.render(
-    React.createElement(App, props),
+    React.createElement(StoreComponent, props),
     document.getElementById('root')
 );
