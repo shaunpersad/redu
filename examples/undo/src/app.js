@@ -16,12 +16,17 @@ const initialState = {
 
 const actions = {
     changeColor: function changeColor(color) {
-        this.props.addToHistory({
+
+        this.setState({
             selectedColor: color
-        }, this.setState.bind(this));
+        }, () => {
+            this.props.addToHistory(this.state);
+        });
     },
     undo: function undo() {
-        this.props.removeFromHistory(this.setState.bind(this));
+        this.props.removeFromHistory((state) => {
+            this.setState(state);
+        });
     }
 };
 
@@ -42,17 +47,15 @@ const historyInitialState = {
 };
 
 const historyActions = {
-    addToHistory: function addToHistory(state, setState, callback) {
+    addToHistory: function addToHistory(state, callback) {
 
         this.setState((prevState) => {
             return {
                 history: prevState.history.concat(state)
             };
-        }, () => {
-            setState(this.state.history[this.state.history.length - 1], callback);
-        });
+        }, callback);
     },
-    removeFromHistory: function removeFromHistory(setState, callback) {
+    removeFromHistory: function removeFromHistory(getState) {
 
         this.setState((prevState) => {
             if (prevState.history.length) {
@@ -66,7 +69,7 @@ const historyActions = {
             return historyInitialState;
 
         }, () => {
-            setState(this.state.history[this.state.history.length - 1], callback);
+            getState(this.state.history[this.state.history.length - 1]);
         });
     }
 };
