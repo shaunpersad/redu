@@ -36,7 +36,7 @@ const contextTypes = {
  * All SubscriberComponent descendants of this StoreComponent will be able to derive any props they need out of
  * this StoreComponent's state, props, and actions.
  *
- * @param {SubscriberComponent|React.Component} Component
+ * @param {React.Component|SubscriberComponent} Component
  * @returns {StoreComponent}
  */
 export function stateManagerOf(Component) {
@@ -121,6 +121,16 @@ export function stateManagerOf(Component) {
         }
 
         /**
+         * @param {function} toProps
+         * @returns {SubscriberComponent}
+         */
+        static asSubStore(toProps = (storeComponentState, storeComponentProps, storeComponentActions) => {
+            return {};
+        }) {
+            return subscribe(this, toProps);
+        }
+
+        /**
          * Necessary to use React's "context" feature.
          *
          * @returns {*}
@@ -142,7 +152,7 @@ export function stateManagerOf(Component) {
  * this StoreComponent's state, props, and actions, by supplying a "toProps" function,
  * which can be set via the "withProps" method.
  *
- * @param {React.Component} Component
+ * @param {React.Component|StoreComponent} Component
  * @param {function} toProps
  * @returns {SubscriberComponent}
  */

@@ -3,7 +3,8 @@ module.exports = {
     entry: {
         ['github-users']: './examples/github-users/src/app.js',
         ['readme-redu']: './examples/readme-redu/src/app.js',
-        ['readme-vanilla-react']: './examples/readme-vanilla-react/src/app.js'
+        ['readme-vanilla-react']: './examples/readme-vanilla-react/src/app.js',
+        ['undo']: './examples/undo/src/app.js'
     },
     output: {
         filename: './examples/[name]/dist/bundle.js'
