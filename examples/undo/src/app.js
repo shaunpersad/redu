@@ -30,17 +30,31 @@ const actions = {
     }
 };
 
+/**
+ * We're going to use the "asSubStore" method to wrap this StoreComponent
+ * in a SubscriberComponent, which will subscribe to a higher-level StoreComponent
+ * called HistoryStoreComponent, which will allow us to track the changes to the
+ * StoreComponent's state history.
+ */
 const StoreComponent = stateManagerOf(ColorList)
     .withInitialState(initialState)
     .withActions(actions)
-    .asSubStore((historyState, historyProps, historyActions) => {
+    .asSubStore((historyComponentState, historyComponentProps, historyComponentActions) => {
 
     return {
-        addToHistory: historyActions.addToHistory,
-        removeFromHistory: historyActions.removeFromHistory,
-        hasHistory: historyState.history.length > 1
+        hasHistory: historyComponentState.history.length > 1,
+        addToHistory: historyComponentActions.addToHistory,
+        removeFromHistory: historyComponentActions.removeFromHistory
     };
 });
+
+/**
+ * We've made our traditional StoreComponent into a SubscriberComponent,
+ * subscribed to the HistoryStoreComponent,
+ * which will house the StoreComponent's state history.
+ *
+ * @type {{history: [*]}}
+ */
 
 const historyInitialState = {
     history: [initialState]
@@ -74,6 +88,11 @@ const historyActions = {
     }
 };
 
+/**
+ * Yup, we're now managing the state of a state manager.
+ *
+ * @type {StoreComponent}
+ */
 const HistoryStoreComponent = stateManagerOf(StoreComponent)
     .withInitialState(historyInitialState)
     .withActions(historyActions);
