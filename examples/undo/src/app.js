@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { stateManagerOf, subscribe } from 'redu';
+import { storeOf, subscribe } from 'redu';
 
 import ColorList from './components/ColorList';
 
@@ -30,16 +30,16 @@ const actions = {
     }
 };
 
+const StoreComponent = storeOf(ColorList).withInitialState(initialState).withActions(actions);
+
 /**
- * We're going to use the "asSubStore" method to wrap this StoreComponent
- * in a SubscriberComponent, which will subscribe to a higher-level StoreComponent
- * called HistoryStoreComponent, which will allow us to track the changes to the
- * StoreComponent's state history.
+ * We will wrap our StoreComponent in a SubscriberComponent called SubStoreComponent,
+ * which will subscribe to a higher-level StoreComponent called HistoryStoreComponent,
+ * which will allow us to record and manage the original StoreComponent's state history.
+ *
+ * @type {SubscriberComponent}
  */
-const StoreComponent = stateManagerOf(ColorList)
-    .withInitialState(initialState)
-    .withActions(actions)
-    .asSubStore((historyComponentState, historyComponentProps, historyComponentActions) => {
+const SubStoreComponent = subscribe(StoreComponent, (historyComponentState, historyComponentProps, historyComponentActions) => {
 
     return {
         hasHistory: historyComponentState.history.length > 1,
@@ -49,11 +49,8 @@ const StoreComponent = stateManagerOf(ColorList)
 });
 
 /**
- * We've made our traditional StoreComponent into a SubscriberComponent,
- * subscribed to the HistoryStoreComponent,
- * which will house the StoreComponent's state history.
+ * We're now going to make our HistoryStoreComponent.
  *
- * @type {{history: [*]}}
  */
 
 const historyInitialState = {
@@ -93,7 +90,7 @@ const historyActions = {
  *
  * @type {StoreComponent}
  */
-const HistoryStoreComponent = stateManagerOf(StoreComponent)
+const HistoryStoreComponent = storeOf(SubStoreComponent)
     .withInitialState(historyInitialState)
     .withActions(historyActions);
 

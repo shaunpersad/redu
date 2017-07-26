@@ -1,9 +1,9 @@
 /**
  * Redu is comprised of two functions:
- * stateManagerOf(Component), and subscribe(Component).
+ * storeOf(Component), and subscribe(Component).
  * Both functions take in a React.Component, and create and return wrapper components around them.
  *
- * stateManagerOf(Component) creates and returns a StoreComponent.
+ * storeOf(Component) creates and returns a StoreComponent.
  * subscribe(Component) creates and returns a SubscriberComponent.
  *
  * StoreComponents wrap your top-level component and manages the application-level state.
@@ -39,7 +39,7 @@ const contextTypes = {
  * @param {React.Component|SubscriberComponent} Component
  * @returns {StoreComponent}
  */
-export function stateManagerOf(Component) {
+export function storeOf(Component) {
 
     /**
      * An object containing action functions that will be bound to the StoreComponent,
@@ -119,17 +119,7 @@ export function stateManagerOf(Component) {
             _initialState = initialState;
             return this;
         }
-
-        /**
-         * @param {function} toProps
-         * @returns {SubscriberComponent}
-         */
-        static asSubStore(toProps = (storeComponentState, storeComponentProps, storeComponentActions) => {
-            return {};
-        }) {
-            return subscribe(this, toProps);
-        }
-
+        
         /**
          * Necessary to use React's "context" feature.
          *

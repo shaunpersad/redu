@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { stateManagerOf } from 'redu';
+import { storeOf } from 'redu';
 
 import ColorList from './components/ColorList';
 
@@ -22,7 +22,7 @@ const actions = {
     }
 };
 
-const StoreComponent = stateManagerOf(ColorList).withInitialState(initialState).withActions(actions);
+const StoreComponent = storeOf(ColorList).withInitialState(initialState).withActions(actions);
 
 ReactDOM.render(
     React.createElement(StoreComponent, props),

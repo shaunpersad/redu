@@ -13,7 +13,7 @@ import 'whatwg-fetch';
 import _debounce from 'lodash.debounce';
 
 import Page from './components/Page'; // our top-most component.
-import { stateManagerOf } from 'redu'; // will create a StoreComponent wrapping the top-most component.
+import { storeOf } from 'redu'; // will create a StoreComponent wrapping the top-most component.
 
 /**
  * This is the full representation of the application-level state that we would like to keep track of
@@ -130,7 +130,7 @@ const actions = {
  *
  * @type {StoreComponent}
  */
-const App = stateManagerOf(Page).withActions(actions).withInitialState(initialState);
+const App = storeOf(Page).withActions(actions).withInitialState(initialState);
 
 ReactDOM.render(
     React.createElement(App, props), // render our App StoreComponent instead of the Page component.
