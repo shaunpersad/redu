@@ -65,7 +65,7 @@ export function storeOf(Component) {
 
     class StoreComponent extends React.Component {
 
-        constructor(props = {}) {
+        constructor(props) {
 
             super(props);
 
@@ -119,7 +119,7 @@ export function storeOf(Component) {
             _initialState = initialState;
             return this;
         }
-        
+
         /**
          * Necessary to use React's "context" feature.
          *
@@ -128,6 +128,16 @@ export function storeOf(Component) {
         static get childContextTypes() {
 
             return Object.assign({}, contextTypes, super.contextTypes || {});
+        }
+
+        /**
+         * You can get the wrapped component back.
+         *
+         * @returns {React.Component|SubscriberComponent}
+         * @constructor
+         */
+        static get WrappedComponent() {
+            return Component;
         }
     }
 
@@ -139,8 +149,7 @@ export function storeOf(Component) {
  * Creates a SubscriberComponent that wraps the given component.
  *
  * All SubscriberComponents have the ability to derive any props they need out of
- * this StoreComponent's state, props, and actions, by supplying a "toProps" function,
- * which can be set via the "withProps" method.
+ * this StoreComponent's state, props, and actions, via the "toProps" function.
  *
  * @param {React.Component|StoreComponent} Component
  * @param {function} toProps
@@ -165,7 +174,10 @@ export function subscribe(
             const { storeComponent } = this.context;
 
             if (!storeComponent) {
-                throw new Error('No StoreComponent found as a parent of this SubscriberComponent.');
+                throw new Error(
+                    'No StoreComponent found as a parent of this SubscriberComponent. ' +
+                    'Did you mean to use the WrappedComponent instead?'
+                );
             }
 
             const { state, props, actions } = storeComponent;
@@ -184,6 +196,16 @@ export function subscribe(
         static get contextTypes() {
 
             return Object.assign({}, contextTypes, super.contextTypes || {});
+        }
+
+        /**
+         * You can get the wrapped component back.
+         *
+         * @returns {React.Component|StoreComponent}
+         * @constructor
+         */
+        static get WrappedComponent() {
+            return Component;
         }
     }
 
