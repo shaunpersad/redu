@@ -15,7 +15,7 @@ const initialState = {
 };
 
 const actions = {
-    changeColor: function changeColor(color) {
+    changeColor(color) {
         this.setState({
             selectedColor: color
         });

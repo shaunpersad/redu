@@ -38,7 +38,7 @@ const initialState = {
  */
 const props = {
     utils: {
-        searchApi: (query) => {
+        searchApi(query) {
             return fetch(`https://api.github.com/search/users?q=${encodeURIComponent(query)}`)
                 .then((resp) => resp.json());
         }
@@ -60,7 +60,7 @@ const actions = {
      *
      * @param {{}} userToDisplay
      */
-    displayUser: function displayUser(userToDisplay) {
+    displayUser(userToDisplay) {
 
         this.setState({
             userToDisplay: userToDisplay
@@ -71,7 +71,7 @@ const actions = {
      * Reset the search.
      *
      */
-    reset: function reset() {
+    reset() {
 
         this.setState(initialState);
     },
@@ -85,7 +85,7 @@ const actions = {
      *
      * @param {string} searchQuery
      */
-    search: function search(searchQuery) {
+    search(searchQuery) {
 
         this.setState({ // using the StoreComponent's this.setState
             searchQuery: searchQuery
@@ -104,7 +104,7 @@ const actions = {
      *
      * @param {string} searchQuery
      */
-    debouncedSearch: _debounce(function debounce(searchQuery) {
+    debouncedSearch: _debounce(function debouncedSearch(searchQuery) {
 
         this.setState({
             searchQuery: searchQuery,
