@@ -5,11 +5,13 @@ import Color from './Color';
 
 function ColorList(props) {
 
+    console.log('rendering');
+
     return (
         <div>
             <p>
                 The selected color is {props.selectedColor}.
-                {props.hasHistory ? (<button onClick={e => props.undo()}>undo</button>) : null}
+                {props.showUndoButton ? (<button onClick={e => props.undo()}>undo</button>) : null}
             </p>
             <div>
                 {props.colors.map(color =>
@@ -25,7 +27,7 @@ export default subscribe(ColorList, (storeComponentState, storeComponentProps, s
     return {
         selectedColor: storeComponentState.selectedColor,
         colors: storeComponentProps.colors,
-        hasHistory: storeComponentProps.hasHistory,
+        showUndoButton: storeComponentProps.hasHistory(),
         undo: storeComponentActions.undo
     };
 });

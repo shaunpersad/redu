@@ -17,8 +17,8 @@ const initialState = {
 const actions = {
     setStateAndHistory(state = {}) {
 
-        this.setState(state, () => {
-            this.props.addToHistory(this.state);
+        this.props.addToHistory(state, (state) => {
+            this.setState(state);
         });
     },
     changeColor(color) {
@@ -41,12 +41,14 @@ const StoreComponent = storeOf(ColorList).withInitialState(initialState).withAct
  * which will subscribe to a higher-level StoreComponent called HistoryStoreComponent,
  * which will allow us to record and manage the original StoreComponent's state history.
  *
+ * The picture looks like this now: SubStoreComponent > StoreComponent > ColorList
+ *
  * @type {SubscriberComponent}
  */
 const SubStoreComponent = subscribe(StoreComponent, (historyComponentState, historyComponentProps, historyComponentActions) => {
 
     return {
-        hasHistory: historyComponentState.history.length > 1,
+        hasHistory: historyComponentActions.hasHistory,
         addToHistory: historyComponentActions.addToHistory,
         removeFromHistory: historyComponentActions.removeFromHistory
     };
@@ -54,7 +56,6 @@ const SubStoreComponent = subscribe(StoreComponent, (historyComponentState, hist
 
 /**
  * We're now going to make our HistoryStoreComponent.
- *
  */
 
 const historyInitialState = {
@@ -62,13 +63,18 @@ const historyInitialState = {
 };
 
 const historyActions = {
-    addToHistory(state, callback) {
+    hasHistory() {
+        return this.state.history.length > 1;
+    },
+    addToHistory(state, getState) {
 
         this.setState((prevState) => {
             return {
                 history: prevState.history.concat(state)
             };
-        }, callback);
+        }, () => {
+            getState(this.state.history[this.state.history.length - 1]);
+        });
     },
     removeFromHistory(getState) {
 
@@ -91,7 +97,9 @@ const historyActions = {
 };
 
 /**
- * Yup, we're now managing the state of a state manager.
+ * Now we have a higher-level StoreComponent.
+ *
+ * The picture looks like this now: HistoryStoreComponent > SubStoreComponent > StoreComponent > ColorList
  *
  * @type {StoreComponent}
  */
@@ -99,7 +107,20 @@ const HistoryStoreComponent = storeOf(SubStoreComponent)
     .withInitialState(historyInitialState)
     .withActions(historyActions);
 
+/**
+ * We don't want changes to the history doubly-render the app.
+ *
+ * The picture looks like this now: DoNotRenderHistoryStoreComponent > SubStoreComponent > StoreComponent > ColorList
+ *
+ */
+class DoNotRenderHistoryStoreComponent extends HistoryStoreComponent {
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return false;
+    }
+}
+
 ReactDOM.render(
-    React.createElement(HistoryStoreComponent, props),
+    React.createElement(DoNotRenderHistoryStoreComponent, props),
     document.getElementById('root')
 );
