@@ -19,10 +19,10 @@ function ColorList(props) {
     );
 }
 
-export default subscribe(ColorList, (storeComponentState, storeComponentProps) => {
+export default subscribe(ColorList, (colorListStoreState, colorListStoreProps) => {
 
     return {
-        selectedColor: storeComponentState.selectedColor,
-        colors: storeComponentProps.colors
+        selectedColor: colorListStoreState.selectedColor,
+        colors: colorListStoreProps.colors
     };
 });

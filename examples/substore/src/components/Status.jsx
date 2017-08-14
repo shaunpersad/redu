@@ -49,12 +49,12 @@ class Status extends React.Component {
 }
 
 
-export default subscribe(Status, (storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(Status, (storeState, storeProps, storeActions) => {
 
     return {
-        searchQuery: storeComponentState.searchQuery,
-        listItems: storeComponentState.listItems,
-        entity: storeComponentProps.entity,
-        reset: storeComponentActions.reset
+        searchQuery: storeState.searchQuery,
+        listItems: storeState.listItems,
+        entity: storeProps.entity,
+        reset: storeActions.reset
     };
 });

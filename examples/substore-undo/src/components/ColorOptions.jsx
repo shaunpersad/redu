@@ -12,10 +12,10 @@ function ColorOptions(props) {
     );
 }
 
-export default subscribe(ColorOptions, (storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(ColorOptions, (colorListSubStoreState, colorListSubStoreProps, colorListSubStoreActions) => {
 
     return {
-        selectedColor: storeComponentState.selectedColor,
-        changeColor: storeComponentActions.changeColor
+        selectedColor: colorListSubStoreState.selectedColor,
+        changeColor: colorListSubStoreActions.changeColor
     };
 });

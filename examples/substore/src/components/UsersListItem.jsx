@@ -62,9 +62,9 @@ class UsersListItem extends React.Component {
     }
 }
 
-export default subscribe(UsersListItem, (storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(UsersListItem, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     return {
-        displayUser: storeComponentActions.displayUser
+        displayUser: pageStoreActions.displayUser
     };
 });

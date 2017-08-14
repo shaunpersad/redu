@@ -54,7 +54,7 @@ class Status extends React.Component {
 /**
  * Wrap the Status component in a SubscriberComponent.
  */
-export default subscribe(Status, (storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(Status, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against
@@ -64,8 +64,8 @@ export default subscribe(Status, (storeComponentState, storeComponentProps, stor
      */
 
     return {
-        searchQuery: storeComponentState.searchQuery,
-        usersListItems: storeComponentState.usersListItems,
-        reset: storeComponentActions.reset
+        searchQuery: pageStoreState.searchQuery,
+        usersListItems: pageStoreState.usersListItems,
+        reset: pageStoreActions.reset
     };
 });

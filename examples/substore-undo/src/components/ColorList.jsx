@@ -4,7 +4,7 @@ import { subscribe } from 'redu';
 import Color from './Color';
 
 function ColorList(props) {
-    
+
     return (
         <div>
             <p>
@@ -20,12 +20,12 @@ function ColorList(props) {
     );
 }
 
-export default subscribe(ColorList, (storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(ColorList, (colorListSubStoreState, colorListSubStoreProps, colorListSubStoreActions) => {
 
     return {
-        selectedColor: storeComponentState.selectedColor,
-        colors: storeComponentProps.colors,
-        showUndoButton: storeComponentProps.hasHistory(),
-        undo: storeComponentActions.undo
+        selectedColor: colorListSubStoreState.selectedColor,
+        colors: colorListSubStoreProps.colors,
+        showUndoButton: colorListSubStoreProps.hasHistory(),
+        undo: colorListSubStoreActions.undo
     };
 });

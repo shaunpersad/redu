@@ -47,7 +47,7 @@ class Search extends React.Component {
 /**
  * Wrap the Search component in a SubscriberComponent.
  */
-export default subscribe(Search, (storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(Search, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against
@@ -61,7 +61,7 @@ export default subscribe(Search, (storeComponentState, storeComponentProps, stor
      */
 
     return {
-        query: storeComponentState.searchQuery,
-        search: storeComponentActions.search
+        query: pageStoreState.searchQuery,
+        search: pageStoreActions.search
     };
 });

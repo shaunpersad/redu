@@ -45,7 +45,7 @@ function User(props) {
 /**
  * Wrap the User component in a SubscriberComponent.
  */
-export default subscribe(User, (storeComponentState, storeComponentProps, storeComponentActions) => {
+export default subscribe(User, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against
@@ -59,6 +59,6 @@ export default subscribe(User, (storeComponentState, storeComponentProps, storeC
      */
 
     return {
-        user: storeComponentState.userToDisplay
+        user: pageStoreState.userToDisplay
     };
 });
