@@ -37,9 +37,10 @@ const contextTypes = {
  * this StoreComponent's state, props, and actions.
  *
  * @param {React.Component|SubscriberComponent} Component
+ * @param {{}} [props]
  * @returns {StoreComponent}
  */
-export function storeOf(Component) {
+export function storeOf(Component, props = {}) {
 
     /**
      * An object containing action functions that will be bound to the StoreComponent,
@@ -98,6 +99,10 @@ export function storeOf(Component) {
             return React.createElement(Component, this.props);
         }
 
+        static get defaultProps() {
+            return props;
+        }
+
         /**
          * Defines the StoreComponent's actions.
          *
@@ -138,6 +143,22 @@ export function storeOf(Component) {
          */
         static get WrappedComponent() {
             return Component;
+        }
+
+        /**
+         * You can get the initial state back.
+         * @returns {{}}
+         */
+        static get initialState() {
+            return _initialState;
+        }
+
+        /**
+         * You can get the action functions back (though unbound).
+         * @returns {{}}
+         */
+        static get actions() {
+            return _actions;
         }
     }
 

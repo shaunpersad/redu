@@ -4,7 +4,8 @@ module.exports = {
         ['github-users']: './examples/github-users/src/app.js',
         ['readme-redu']: './examples/readme-redu/src/app.js',
         ['readme-vanilla-react']: './examples/readme-vanilla-react/src/app.js',
-        ['undo']: './examples/undo/src/app.js'
+        ['substore']: './examples/substore/src/app.js',
+        ['substore-undo']: './examples/substore-undo/src/app.js'
     },
     output: {
         filename: './examples/[name]/dist/bundle.js'

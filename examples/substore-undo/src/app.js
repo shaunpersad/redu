@@ -1,10 +1,11 @@
 "use strict";
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ColorListStore from './stores/ColorListStore';
+import HistoryStore from './stores/HistoryStore';
 
 ReactDOM.render(
-    React.createElement(ColorListStore),
+    React.createElement(HistoryStore),
     document.getElementById('root')
 );

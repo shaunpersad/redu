@@ -1,6 +1,5 @@
-/**
- * The entrypoint of our example app.
- */
+"use strict";
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
