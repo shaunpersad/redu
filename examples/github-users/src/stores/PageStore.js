@@ -11,19 +11,14 @@ import 'whatwg-fetch';
 import _debounce from 'lodash.debounce';
 
 import Page from '../components/Page'; // our top-most component.
-import { storeOf } from 'redu'; // will create a StoreComponent wrapping the top-most component.
+import { createStore } from 'redu'; // will create a StoreComponent wrapping the top-most component.
 
 /**
- * This is the full representation of the application-level state that we would like to keep track of
- * across all components.
+ * Create our PageStore StoreComponent.
  *
- * @type {{searchQuery: string, userToDisplay: null|{}, usersListItems: null|[]}}
+ * @type {StoreComponent}
  */
-const initialState = {
-    searchQuery: '',
-    userToDisplay: null,
-    usersListItems: null
-};
+const PageStore = createStore(Page);
 
 /**
  * These are the props that we'd like our StoreComponent to have.
@@ -31,10 +26,8 @@ const initialState = {
  * will also gain access to these props.
  *
  * This is a handy place to put utilities that will be used across the application.
- *
- * @type {{utils: {searchApi: {function}}}}
  */
-const props = {
+PageStore.defaultProps = {
     utils: {
         searchApi(query) {
             return fetch(`https://api.github.com/search/users?q=${encodeURIComponent(query)}`)
@@ -44,14 +37,22 @@ const props = {
 };
 
 /**
+ * This is the full representation of the application-level state that we would like to keep track of
+ * across all components.
+ */
+PageStore.initialState = {
+    searchQuery: '',
+    userToDisplay: null,
+    usersListItems: null
+};
+
+/**
  * The actions you can perform to change the StoreComponent's state.
  *
  * They are all bound to the StoreComponent, so you have access to it's setState function,
  * props, and other action functions.
- *
- * @type {{displayUser: {function}, reset: {function}, search: {function}, debouncedSearch: {function}}}
  */
-const actions = {
+PageStore.actions = {
 
     /**
      * Select a user to display on the right hand side.
@@ -124,4 +125,4 @@ const actions = {
  *
  * @type {StoreComponent}
  */
-export default storeOf(Page, props).withActions(actions).withInitialState(initialState);
+export default PageStore;

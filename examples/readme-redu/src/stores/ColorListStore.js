@@ -1,18 +1,20 @@
 "use strict";
 
-import { storeOf } from 'redu';
+import { createStore } from 'redu';
 
 import ColorList from '../components/ColorList';
 
-const props = {
+const ColorListStore = createStore(ColorList);
+
+ColorListStore.defaultProps = {
     colors: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
 };
 
-const initialState = {
-    selectedColor: props.colors[0]
+ColorListStore.initialState = {
+    selectedColor: ColorListStore.defaultProps.colors[0]
 };
 
-const actions = {
+ColorListStore.actions = {
     changeColor(color) {
         this.setState({
             selectedColor: color
@@ -20,4 +22,4 @@ const actions = {
     }
 };
 
-export default storeOf(ColorList, props).withInitialState(initialState).withActions(actions);
+export default ColorListStore;

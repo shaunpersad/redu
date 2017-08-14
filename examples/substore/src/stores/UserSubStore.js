@@ -1,21 +1,23 @@
 "use strict";
 import _debounce from 'lodash.debounce';
 
-import { storeOf, subscribe } from 'redu';
+import { createStore, subscribe } from 'redu';
 
 import User from '../components/User';
 
-const props = {
+const UserStore = createStore(User);
+
+UserStore.defaultProps = {
     entity: 'repo'
 };
 
-const initialState = {
+UserStore.initialState = {
     searchQuery: '',
     listItems: null
 };
 
 
-const actions = {
+UserStore.actions = {
 
     reset() {
 
@@ -45,8 +47,6 @@ const actions = {
 
     }, 500)
 };
-
-const UserStore = storeOf(User, props).withActions(actions).withInitialState(initialState);
 
 
 export default subscribe(UserStore, (pageStoreState, pageStoreProps, pageStoreActions) => {

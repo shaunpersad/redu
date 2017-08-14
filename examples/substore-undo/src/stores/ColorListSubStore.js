@@ -1,18 +1,20 @@
 "use strict";
 
-import { storeOf, subscribe } from 'redu';
+import { createStore, subscribe } from 'redu';
 
 import ColorList from '../components/ColorList';
 
-const props = {
+const ColorListStore = createStore(ColorList);
+
+ColorListStore.defaultProps = {
     colors: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
 };
 
-const initialState = {
-    selectedColor: props.colors[0]
+ColorListStore.initialState = {
+    selectedColor: ColorListStore.defaultProps.colors[0]
 };
 
-const actions = {
+ColorListStore.actions = {
     setStateAndHistory(state = {}) {
 
         this.props.addToHistory(state, (state) => {
@@ -32,11 +34,9 @@ const actions = {
     }
 };
 
-const ColorListStore = storeOf(ColorList, props).withInitialState(initialState).withActions(actions);
-
 /**
- * We will wrap our StoreComponent in a SubscriberComponent called SubStoreComponent,
- * which will subscribe to a higher-level StoreComponent called HistoryStoreComponent,
+ * We will wrap our StoreComponent in a SubscriberComponent to create a "SubStoreComponent",
+ * which will subscribe to a higher-level StoreComponent called HistoryStore,
  * which will allow us to record and manage the original StoreComponent's state history.
  *
  * The picture looks like this now: ColorListSubStore > ColorListStore > ColorList

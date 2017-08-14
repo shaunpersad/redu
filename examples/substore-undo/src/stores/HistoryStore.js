@@ -1,14 +1,29 @@
 "use strict";
 
-import { storeOf } from 'redu';
+import { createStore } from 'redu';
 
 import ColorListSubStore from './ColorListSubStore';
 
-const initialState = {
-    history: [ColorListSubStore.initialState]
+/**
+ * Now we have a higher-level StoreComponent.
+ *
+ * The picture looks like this now: HistoryStore > ColorListSubStore > ColorListStore > ColorList
+ *
+ * @type {StoreComponent}
+ */
+const HistoryStore = createStore(ColorListSubStore);
+
+/**
+ * We want to use the ColorListStore's initiaState as the first item in our history,
+ * so we need to get the ColorListStore back from the ColorListSubStore that wraps it.
+ */
+const ColorListStore = ColorListSubStore.WrappedComponent;
+
+HistoryStore.initialState = {
+    history: [ColorListStore.initialState] // use the ColorListStore's initialState as the first item in the history.
 };
 
-const actions = {
+HistoryStore.actions = {
     hasHistory() {
         return this.state.history.length > 1;
     },
@@ -31,7 +46,7 @@ const actions = {
             });
 
             if (!history.length) {
-                history.push(initialState);
+                history.push(ColorListStore.initialState);
             }
 
             return { history };
@@ -43,21 +58,12 @@ const actions = {
 };
 
 /**
- * Now we have a higher-level StoreComponent.
- *
- * The picture looks like this now: HistoryStore > ColorListSubStore > ColorListStore > ColorList
- *
- * @type {StoreComponent}
- */
-const HistoryStore = storeOf(ColorListSubStore).withInitialState(initialState).withActions(actions);
-
-/**
  * We don't want changes to the history doubly-render the app.
  *
- * The picture looks like this now: DoNotRenderHistoryStore > ColorListSubStore > ColorListStore > ColorList
+ * The picture looks like this now: DoNotRenderHistoryStoreComponent > ColorListSubStore > ColorListStore > ColorList
  *
  */
-export class DoNotRenderHistoryStore extends HistoryStore {
+export default class DoNotRenderHistoryStore extends HistoryStore {
 
     shouldComponentUpdate(nextProps, nextState) {
         return false;

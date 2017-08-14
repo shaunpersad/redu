@@ -1,9 +1,9 @@
 /**
  * Redu is comprised of two functions:
- * storeOf(Component), and subscribe(Component).
+ * createStore(Component), and subscribe(Component).
  * Both functions take in a React.Component, and create and return wrapper components around them.
  *
- * storeOf(Component) creates and returns a StoreComponent.
+ * createStore(Component) creates and returns a StoreComponent.
  * subscribe(Component) creates and returns a SubscriberComponent.
  *
  * StoreComponents wrap your top-level component and manages the application-level state.
@@ -37,10 +37,27 @@ const contextTypes = {
  * this StoreComponent's state, props, and actions.
  *
  * @param {React.Component|SubscriberComponent} Component
- * @param {{}} [props]
  * @returns {StoreComponent}
  */
-export function storeOf(Component, props = {}) {
+export function createStore(Component) {
+
+    /**
+     * An object containing the default props of the store component.
+     *
+     * @type {{}}
+     * @private
+     */
+    let _defaultProps = {};
+
+    /**
+     * The initial state of the StoreComponent. It should represent a complete picture of your application-level state.
+     *
+     * The initial state can be defined with the "withInitialState" method.
+     *
+     * @type {{}}
+     * @private
+     */
+    let _initialState = {};
 
     /**
      * An object containing action functions that will be bound to the StoreComponent,
@@ -53,16 +70,6 @@ export function storeOf(Component, props = {}) {
      * @private
      */
     let _actions = {};
-
-    /**
-     * The initial state of the StoreComponent. It should represent a complete picture of your application-level state.
-     *
-     * The initial state can be defined with the "withInitialState" method.
-     *
-     * @type {{}}
-     * @private
-     */
-    let _initialState = {};
 
     class StoreComponent extends React.Component {
 
@@ -99,30 +106,55 @@ export function storeOf(Component, props = {}) {
             return React.createElement(Component, this.props);
         }
 
-        static get defaultProps() {
-            return props;
-        }
-
         /**
-         * Defines the StoreComponent's actions.
+         * You may directly set the default props.
          *
-         * @param {{}} actions
-         * @returns {StoreComponent}
+         * @param {{}} defaultProps
          */
-        static withActions(actions = {}) {
-            _actions = actions;
-            return this;
+        static set defaultProps(defaultProps) {
+            _defaultProps = defaultProps;
         }
 
         /**
-         * Defines the StoreComponent's initial state.
+         * You may directly set the initial state.
          *
          * @param {{}} initialState
-         * @returns {StoreComponent}
          */
-        static withInitialState(initialState = {}) {
+        static set initialState(initialState) {
             _initialState = initialState;
-            return this;
+        }
+
+        /**
+         * You may directly set the actions.
+         *
+         * @param {{}} actions
+         */
+        static set actions(actions) {
+            _actions = actions;
+        }
+
+        /**
+         * You can get the default props back.
+         * @returns {{}}
+         */
+        static get defaultProps() {
+            return _defaultProps;
+        }
+
+        /**
+         * You can get the initial state back.
+         * @returns {{}}
+         */
+        static get initialState() {
+            return _initialState;
+        }
+
+        /**
+         * You can get the action functions back (though unbound).
+         * @returns {{}}
+         */
+        static get actions() {
+            return _actions;
         }
 
         /**
@@ -143,22 +175,6 @@ export function storeOf(Component, props = {}) {
          */
         static get WrappedComponent() {
             return Component;
-        }
-
-        /**
-         * You can get the initial state back.
-         * @returns {{}}
-         */
-        static get initialState() {
-            return _initialState;
-        }
-
-        /**
-         * You can get the action functions back (though unbound).
-         * @returns {{}}
-         */
-        static get actions() {
-            return _actions;
         }
     }
 
@@ -207,6 +223,15 @@ export function subscribe(
                 toProps(state, props, actions),
                 this.props
             ));
+        }
+
+        /**
+         * You can get the toProps function back.
+         *
+         * @returns {Function}
+         */
+        static get toProps() {
+            return toProps;
         }
 
         /**

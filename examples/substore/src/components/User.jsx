@@ -1,6 +1,7 @@
 "use strict";
 
 import React from 'react';
+import _isEqual from 'lodash.isequal';
 
 import { subscribe } from 'redu';
 
@@ -11,6 +12,20 @@ import ReposListItem from './ReposListItem';
 
 
 class User extends React.Component {
+
+    componentDidMount() {
+
+        if (this.props.user) {
+            this.props.search();
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+
+        if (!_isEqual(prevProps.user, this.props.user) && this.props.user) {
+            this.props.search();
+        }
+    }
 
     render() {
 

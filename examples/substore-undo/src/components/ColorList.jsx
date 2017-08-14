@@ -4,9 +4,7 @@ import { subscribe } from 'redu';
 import Color from './Color';
 
 function ColorList(props) {
-
-    console.log('rendering');
-
+    
     return (
         <div>
             <p>

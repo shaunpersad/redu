@@ -12,14 +12,23 @@ class Status extends React.Component {
      */
     status() {
 
-        if (!this.props.searchQuery) {
-            return 'Please enter a GitHub username.';
+        if (this.props.usersListItems && this.props.usersListItems.length) {
+
+            let suffix = 's';
+            if (this.props.usersListItems.length === 1) {
+                suffix = '';
+            }
+
+            return `Found ${this.props.usersListItems.length} user${suffix}.`;
         }
+
+        if (!this.props.searchQuery) {
+            return `Please enter a GitHub username.`;
+        }
+
         if (this.props.usersListItems === null) {
             return 'Searching...';
         }
-        return `Found ${this.props.usersListItems.length} users.`;
-
     }
 
     render() {

@@ -93,11 +93,11 @@ npm install redu
 
 ### API
 
-Redu is comprised of just two functions: `storeOf(Component)`, and `subscribe(Component, toProps)`.
+Redu is comprised of just two functions: `createStore(Component)`, and `subscribe(Component, toProps)`.
 
 Both functions take in a `React.Component`, and create and return wrapper components around them.
 
-- `storeOf(Component)` creates and returns a `StoreComponent` wrapped around the supplied `Component`.
+- `createStore(Component)` creates and returns a `StoreComponent` wrapped around the supplied `Component`.
     - `StoreComponents` wrap your top-level component and manages the application-level state.
     - `StoreComponents` also give you the `withInitialState(initialState)` static method, which will set it's initial state,
     and also the `withActions(actions)` static method, which will set the action functions that can modify the `StoreComponent`'s state.
@@ -234,7 +234,7 @@ const actions = {
     }
 };
 
-const StoreComponent = storeOf(ColorList).withInitialState(initialState).withActions(actions);
+const StoreComponent = createStore(ColorList).withInitialState(initialState).withActions(actions);
 
 ReactDOM.render(
     React.createElement(StoreComponent, props),

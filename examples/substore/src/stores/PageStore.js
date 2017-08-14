@@ -4,17 +4,11 @@ import 'whatwg-fetch';
 import _debounce from 'lodash.debounce';
 
 import Page from '../components/Page';
-import { storeOf } from 'redu';
+import { createStore } from 'redu';
 
+const PageStore = createStore(Page);
 
-const initialState = {
-    searchQuery: '',
-    userToDisplay: null,
-    listItems: null
-};
-
-
-const props = {
+PageStore.defaultProps = {
     utils: {
         searchUsersApi(query) {
             return fetch(`https://api.github.com/search/users?q=${encodeURIComponent(query)}`)
@@ -28,8 +22,13 @@ const props = {
     entity: 'user'
 };
 
+PageStore.initialState = {
+    searchQuery: '',
+    userToDisplay: null,
+    listItems: null
+};
 
-const actions = {
+PageStore.actions = {
 
     displayUser(userToDisplay) {
 
@@ -38,7 +37,7 @@ const actions = {
 
     reset() {
 
-        this.setState(initialState);
+        this.setState(PageStore.initialState);
     },
 
     search(searchQuery) {
@@ -65,4 +64,4 @@ const actions = {
     }, 500)
 };
 
-export default storeOf(Page, props).withActions(actions).withInitialState(initialState);
+export default PageStore;
