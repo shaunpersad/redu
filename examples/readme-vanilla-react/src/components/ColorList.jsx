@@ -34,6 +34,12 @@ class ColorList extends React.Component {
             </div>
         );
     }
+
+    static get defaultProps() {
+        return {
+            colors: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+        };
+    }
 }
 
 export default ColorList;

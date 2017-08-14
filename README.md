@@ -179,12 +179,8 @@ grand-child components:
 // app.js, the "entrypoint" of the app.
 import ColorList from './components/ColorList';
 
-const props = {
-    colors: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-};
-
 ReactDOM.render(
-    React.createElement(ColorList, props),
+    React.createElement(ColorList),
     document.getElementById('root')
 );
 ```
@@ -222,6 +218,12 @@ class ColorList extends React.Component {
                 </div>
             </div>
         );
+    }
+    
+    static get defaultProps() {
+        return {
+            colors: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+        };
     }
 }
 
@@ -270,4 +272,107 @@ the `ColorOptions` components.
 To accomplish this, we will move all of the shared application-level state and action functions out of the `ColorList`
 component and into the `ColorListStore`. We will then subscribe the `ColorList` and the `ColorOptions` to the
 `ColorListStore` in order to derive what we need from it.
+
+```js
+// app.js, the "entrypoint" of the app.
+import ColorListStore from './stores/ColorListStore';
+
+ReactDOM.render(
+    React.createElement(ColorListStore),
+    document.getElementById('root')
+);
+```
+```js
+// ColorListStore.js, creates the application-level store.
+import { createStore } from 'redu';
+import ColorList from '../components/ColorList';
+
+const ColorListStore = createStore(ColorList);
+
+ColorListStore.defaultProps = {
+    colors: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+};
+
+ColorListStore.initialState = {
+    selectedColor: ColorListStore.defaultProps.colors[0]
+};
+
+ColorListStore.actions = {
+    changeColor(color) {
+        this.setState({
+            selectedColor: color
+        });
+    }
+};
+
+export default ColorListStore;
+```
+
+```jsx harmony
+// ColorList.jsx, displays the list of colors
+import { subscribe } from 'redu';
+import Color from './Color';
+
+function ColorList(props) {
+
+    return (
+        <div>
+            <p>
+                The selected color is {props.selectedColor}
+            </p>
+            <div>
+                {props.colors.map(color =>
+                    <Color key={color} color={color} />
+                )}
+            </div>
+        </div>
+    );
+}
+
+export default subscribe(ColorList, (colorListStoreState, colorListStoreProps) => {
+
+    return {
+        selectedColor: colorListStoreState.selectedColor,
+        colors: colorListStoreProps.colors
+    };
+});
+```
+```jsx harmony
+// Color.jsx, each list item
+import ColorOptions from './ColorOptions';
+
+function Color(props) {
+
+    return (
+        <div>
+            <span>This color is {props.color}</span>
+            <ColorOptions color={props.color} />
+        </div>
+    );
+}
+
+export default Color;
+```
+```jsx harmony
+// ColorOptions.jsx, displays the relevant options for a particular color.
+import { subscribe } from 'redu';
+
+function ColorOptions(props) {
+    return (
+        <div>
+            <span>Replace {props.selectedColor} with {props.color}?</span>
+            <button onClick={e => props.changeColor(props.color)}>yes</button>
+        </div>
+    );
+}
+
+export default subscribe(ColorOptions, (colorListStoreState, colorListStoreProps, colorListStoreActions) => {
+
+    return {
+        selectedColor: colorListStoreState.selectedColor,
+        changeColor: colorListStoreActions.changeColor
+    };
+});
+```
+
 
