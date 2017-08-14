@@ -66,7 +66,7 @@ freedom, and tooling that "vanilla" React provides, but with the powerful benefi
 
 ## What problems does Redu solve?
 
-### Problem 1: threading props down multiple levels
+### Problem #1: threading props down multiple levels
 
 Let's say my app looks like this:
 ```jsx harmony
@@ -97,7 +97,7 @@ that it needs from the `StoreComponent` as props:
 ```
 
 
-### Problem 2: Scattered application state
+### Problem #2: Scattered application state
 
 Redu can eliminate as much component-level state as you want, and combine them into a single application-level state
 object. Your descendant components can then pull out or modify whichever properties of this state that they wish. 
@@ -109,7 +109,7 @@ That said, there's nothing wrong with having component-level state. You have the
 application-level and what should be component-level.
 
 
-### Problem 3: Redux boilerplate
+### Problem #3: Redux boilerplate
 
 It's no secret that implementing a new stateful feature in Redux can be a chore. You create action creators, actions, 
 and reducers, and if what you need to do is asynchronous, there are even more hoops to jump through.
