@@ -378,5 +378,5 @@ export default subscribe(ColorOptions, (colorListStoreState, colorListStoreProps
 Notice that we've solved [problem #1](#problem-1-threading-props-down-multiple-levels) by eliminating threading props down multiple levels, 
 and solved [problem #2](#problem-2-scattered-application-state) via the `ColorListStore.js`, which, when viewed, gives a very good sense of what this app does. 
 
-And of course, problem #3 is solved as well, since we had no need to create action creators or reducers.
+And of course, [problem #3](#problem-3-redux-boilerplate) is solved as well, since we had no need to create action creators or reducers.
 
