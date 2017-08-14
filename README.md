@@ -1,7 +1,9 @@
 # Redu
+
 Simple application-level state management for React apps.
 
-## Simpler than simple?
+
+## What is it?
 
 As far as state management solutions go, Redux is already simple.  At least, that's the idea.  The reality is that while 
 action creators, actions, and reducers are simple, open-ended concepts, their implementations can become unwieldy, and 
@@ -10,7 +12,7 @@ often leaves us with a lot of boilerplate.
 What _is_ simple, is React's built-in **component-level** state management, where events trigger action functions, which 
 in turn call `setState`, to update that component's state:
 ```jsx harmony
-class Counter extends Component {
+class Counter extends React.Component {
   constructor(props) {
       super(props);
       this.state = { value: 0 }; // initial state
@@ -40,34 +42,57 @@ Redu performs this exact same flow, but at an **application level**, where a sin
 your application-level state, and any of its descendant `SubscriberComponents` may derive props from this state, which 
 can include action functions to request application-level state changes.
 
+In short, Redu brings React's component-level state management up to the application level.
 
-## What problem does Redu solve?
+
+## How does it work?
+
+Redu is comprised of two functions: `createStore(Component)`, and `subscribe(Component)`.
+
+Both functions take in a React.Component, and create and return wrapper components around them.
+
+`createStore(Component)` creates and returns a StoreComponent. StoreComponents wrap your top-level component and manages 
+the application-level state.
+
+`subscribe(Component)` creates and returns a SubscriberComponent. SubscriberComponents can derive props directly out of 
+the StoreComponent's state, props, and action functions, and pass them down to the components that they wrap.
+
+With just these two concepts, you can keep your application state in a single store, and any descendant components
+can "cut the line" to receive exactly what they need from that store.
+
+StoreComponents and SubscriberComponents are just regular React.Components themselves, so you get all the familiarity, 
+freedom, and tooling that "vanilla" React provides, but with the powerful benefits of application state management.
+
+
+## What problems does Redu solve?
+
+### Problem 1: threading props down multiple levels
 
 Let's say my app looks like this:
 ```jsx harmony
-<TopLevelComponent>
+<PageComponent>
     <ChildComponent>
         <GrandChildComponent />
     </ChildComponent>
-</TopLevelComponent>
+</PageComponent>
 ```
-If the `GrandChildComponent` wanted to utilize props or state from the `TopLevelComponent`, you'd have to pass them down
-first to the `ChildComponent`, then to the `GrandChildComponent`. Also, if you wanted to modify the `TopLevelComponent`'s
+If the `GrandChildComponent` wanted to utilize props or state from the `PageComponent`, you'd have to pass them down
+first to the `ChildComponent`, then to the `GrandChildComponent`. Also, if you wanted to modify the `PageComponent`'s
 state from the `GrandChildComponent`, you'd have to pass down an action function in the same manner, so that the 
 `GrandChildComponent` would be able to call it.
 
-With Redu, the application-level state is stored in the `StoreComponent` which wraps the `TopLevelComponent`, and the 
+With Redu, the application-level state is stored in the `StoreComponent` which wraps the `PageComponent`, and the 
 `GrandChildComponent` gets wrapped in a `SubscriberComponent`, which can pass down anything to the `GrandChildComponent` 
 that it needs from the `StoreComponent` as props:
 ```jsx harmony
 <StoreComponent>
-    <TopLevelComponent>
+    <PageComponent>
         <ChildComponent>
             <SubscriberComponent>
                 <GrandChildComponent />
             </SubscriberComponent>
         </ChildComponent>
-    </TopLevelComponent>
+    </PageComponent>
 </StoreComponent>
 ```
 As a simplified illustration of how this composition works under the hood, the `SubscriberComponent` will render the 
@@ -80,6 +105,27 @@ class SubscriberComponent extends React.Component {
     }
 }
 ```
+
+
+### Problem 2: Scattered application state
+
+Redu can eliminate as much component-level state as you want, and combine them into a single application-level state
+object. Your descendant components can then pull out or modify whichever properties of this state that they wish. 
+
+Condensing your application's state into a single object can be beneficial for quickly understanding what an app
+does and how it does it, along with other bonuses like being able to serialize/store/deserialize your app state.
+ 
+That said, there's nothing wrong with having component-level state. You have the freedom to choose what state should be
+application-level and what should be component-level.
+
+
+### Problem 3: Redux boilerplate
+
+It's no secret that implementing a new stateful feature in Redux can be a chore. You create action creators, actions, 
+and reducers, and if what you need to do is asynchronous, there are even more hoops to jump through.
+
+With Redu, the process is almost exactly the same as creating a stateful feature in a single component, with the addition
+of implementing simple functions to allow ancestor components to derive what they need out of the store as props.
 
 
 ## Usage
@@ -95,15 +141,36 @@ npm install redu
 
 Redu is comprised of just two functions: `createStore(Component)`, and `subscribe(Component, toProps)`.
 
-Both functions take in a `React.Component`, and create and return wrapper components around them.
+#### `createStore(Component: React.Component)`: `StoreComponent`
+Creates and returns a `StoreComponent` wrapped around the supplied `Component`.
 
-- `createStore(Component)` creates and returns a `StoreComponent` wrapped around the supplied `Component`.
-    - `StoreComponents` wrap your top-level component and manages the application-level state.
-    - `StoreComponents` also give you the `withInitialState(initialState)` static method, which will set it's initial state,
-    and also the `withActions(actions)` static method, which will set the action functions that can modify the `StoreComponent`'s state.
-- `subscribe(Component, toProps)` creates and returns a `SubscriberComponent` wrapped around the supplied `Component`.
-    - `SubscriberComponents` utilize the `StoreComponent`'s state, props, and action functions to create props for the 
-    supplied `Component`, specified by the supplied `toProps` function.
+##### `StoreComponent.initialState`: `Object`
+Setting this property with an object will provide the `StoreComponent` with its initial state. The `StoreComponent's` state
+will be made available to `SubscriberComponents` via the `toProps` function.
+
+##### `StoreComponent.actions`: `Object`
+Setting this property with an object of functions will provide the `StoreComponent` with action functions that will
+be bound to the StoreComponent instance when it is created. These actions will be made available to `SubscriberComponents`
+via the `toProps` function.
+
+##### `StoreComponent.defaultProps`: `Object`
+Setting this property with an object will provide the `StoreComponent` with default props. These props can be overridden
+when creating the element, eg. via `<StoreComponent key=val />`, or by `React.createElement(StoreComponent, {key: val})`.
+These props will be made available to the `SubscriberComponents` via the `toProps` function, and is therefore a good place
+to house application-wide utilities and configs.
+
+##### `StoreComponent.WrappedComponent`: `React.Component`
+This property will return the `Component` that was wrapped by `createStore(Component)`. It is not directly settable.
+
+#### `subscribe(Component: React.Component, toProps: function)`: `SubscriberComponent`
+Creates and returns a `SubscriberComponent` wrapped around the supplied `Component`.
+
+##### `toProps(storeState: Object, storeProps: Object, storeActions: Object)`: `Object`
+Gives you access to the `StoreComponent's` state, props, and actions. It must return an object, which will be passed into
+the `SubscriberComponent` as props.
+
+##### `SubscriberComponent.WrappedComponent`: `React.Component`
+This property will return the `Component` that was wrapped by `subscribe(Component, toProps)`. It is not directly settable.
 
 
 ### Example
@@ -210,100 +277,6 @@ Let's "redu" it. Our goal will be to eliminate the number of props that we need 
 the `ColorOptions` components.
 
 To accomplish this, we will move all of the shared application-level state and action functions out of the `ColorList`
-component and into the `StoreComponent`. We will then subscribe the `ColorList` and the `ColorOptions` to the
-`StoreComponent` in order to derive what we need from it.
-```js
-// app.js, where we will set up and create the StoreComponent, by wrapping the ColorList.
-import { stateManagerOf } from 'redu';
+component and into the `ColorListStore`. We will then subscribe the `ColorList` and the `ColorOptions` to the
+`ColorListStore` in order to derive what we need from it.
 
-import ColorList from './components/ColorList';
-
-const props = {
-    colors: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-};
-
-const initialState = {
-    selectedColor: props.colors[0]
-};
-
-const actions = {
-    changeColor: function changeColor(color) {
-        this.setState({
-            selectedColor: color
-        });
-    }
-};
-
-const StoreComponent = createStore(ColorList).withInitialState(initialState).withActions(actions);
-
-ReactDOM.render(
-    React.createElement(StoreComponent, props),
-    document.getElementById('root')
-);
-```
-```jsx harmony
-// ColorList.jsx, we are now just passing down the color to the Color component.
-import { subscribe } from 'redu';
-import Color from './Color';
-
-function ColorList(props) {
-
-    return (
-        <div>
-            <p>
-                The selected color is {props.selectedColor}
-            </p>
-            <div>
-                {props.colors.map(color =>
-                    <Color key={color} color={color} />
-                )}
-            </div>
-        </div>
-    );
-}
-
-export default subscribe(ColorList, (storeComponentState, storeComponentProps) => {
-
-    return {
-        selectedColor: storeComponentState.selectedColor,
-        colors: storeComponentProps.colors
-    };
-});
-```
-```jsx harmony
-// Color.jsx, we are no longer threading through the "selectedColor" and "changeColor" props.
-import ColorOptions from './ColorOptions';
-
-function Color(props) {
-
-    return (
-        <div>
-            <span>This color is {props.color}</span>
-            <ColorOptions color={props.color} />
-        </div>
-    );
-}
-
-export default Color;
-```
-```jsx harmony
-// ColorOptions.jsx, we can get the application-level state and action functions directly from the StateComponent now.
-import { subscribe } from 'redu';
-
-function ColorOptions(props) {
-    return (
-        <div>
-            <span>Replace {props.selectedColor} with {props.color}?</span>
-            <button onClick={e => props.changeColor(props.color)}>yes</button>
-        </div>
-    );
-}
-
-export default subscribe(ColorOptions, (storeComponentState, storeComponentProps, storeComponentActions) => {
-
-    return {
-        selectedColor: storeComponentState.selectedColor,
-        changeColor: storeComponentActions.changeColor
-    };
-});
-```
