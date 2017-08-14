@@ -49,19 +49,19 @@ In short, Redu brings React's component-level state management up to the applica
 
 Redu is comprised of two functions: `createStore(Component)`, and `subscribe(Component, toProps)`.
 
-Both functions take in a React.Component, and create and return wrapper components around them.
+Both functions take in a `React.Component`, and create and return wrapper components around them.
 
-`createStore(Component)` creates and returns a StoreComponent. StoreComponents wrap your top-level component and manages 
+`createStore(Component)` creates and returns a `StoreComponent`. `StoreComponents` wrap your top-level component and manages 
 the application-level state.
 
-`subscribe(Component, toProps)` creates and returns a SubscriberComponent. SubscriberComponents can derive props directly out of 
-the StoreComponent's state, props, and action functions via the `toProps` function, and pass them down to the components that they wrap.
+`subscribe(Component, toProps)` creates and returns a `SubscriberComponent`. `SubscriberComponents` can derive props directly out of 
+the `StoreComponent's` state, props, and action functions via the `toProps` function, and pass them down to the components that they wrap.
 
 With just these two concepts, you can keep your application state in a single store, and any descendant components
 can "cut the line" to receive exactly what they need from that store.
 
-StoreComponents and SubscriberComponents are just regular React.Components themselves, so you get all the familiarity, 
-freedom, and tooling that "vanilla" React provides, but with the powerful benefits of application state management.
+`StoreComponents` and `SubscriberComponents` are just regular `React.Components` themselves, so you get all the familiarity, 
+freedom, and tooling that "vanilla" React provides, but with the powerful benefits of application-level state management.
 
 
 ## What problems does Redu solve?
