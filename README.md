@@ -114,8 +114,9 @@ application-level and what should be component-level.
 It's no secret that implementing a new stateful feature in Redux can be a chore. You create action creators, actions, 
 and reducers, and if what you need to do is asynchronous, there are even more hoops to jump through.
 
-With Redu, the process is almost exactly the same as creating a stateful feature in a single component, with the addition
-of implementing simple functions to allow ancestor components to derive what they need out of the store as props.
+With Redu, the process is almost exactly the same as creating a stateful feature in a single "vanilla" component, with 
+the addition of implementing simple functions to allow ancestor components to derive what they need out of the store as
+props.
 
 
 ## Usage
