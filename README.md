@@ -95,16 +95,6 @@ that it needs from the `StoreComponent` as props:
     </PageComponent>
 </StoreComponent>
 ```
-As a simplified illustration of how this composition works under the hood, the `SubscriberComponent` will render the 
-`GrandChildComponent` that it wraps, and pass down any requested application-level state, props, or action functions as props:
-```jsx harmony
-class SubscriberComponent extends React.Component {
-    render() {
-        const derivedProps = toProps(storeComponentState, storeComponentProps, storeComponentActions);
-        return <GrandChildComponent {...derivedProps} {...this.props} />
-    }
-}
-```
 
 
 ### Problem 2: Scattered application state
