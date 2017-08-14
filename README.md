@@ -135,32 +135,32 @@ Redu is comprised of just two functions: `createStore(Component)`, and `subscrib
 #### -`createStore(Component: React.Component)`: `StoreComponent`
 Creates and returns a `StoreComponent` wrapped around the supplied `Component`.
 
-##### -`StoreComponent.initialState`: `Object`
+###### -`StoreComponent.initialState`: `Object`
 Setting this property with an object will provide the `StoreComponent` with its initial state. The `StoreComponent's` state
 will be made available to `SubscriberComponents` via the `toProps` function.
 
-##### -`StoreComponent.actions`: `Object`
+###### -`StoreComponent.actions`: `Object`
 Setting this property with an object of functions will provide the `StoreComponent` with action functions that will
 be bound to the StoreComponent instance when it is created. These actions will be made available to `SubscriberComponents`
 via the `toProps` function.
 
-##### -`StoreComponent.defaultProps`: `Object`
+###### -`StoreComponent.defaultProps`: `Object`
 Setting this property with an object will provide the `StoreComponent` with default props. These props can be overridden
 when creating the element, eg. via `<StoreComponent key=val />`, or by `React.createElement(StoreComponent, {key: val})`.
 These props will be made available to the `SubscriberComponents` via the `toProps` function, and is therefore a good place
 to house application-wide utilities and configs.
 
-##### -`StoreComponent.WrappedComponent`: `React.Component`
+###### -`StoreComponent.WrappedComponent`: `React.Component`
 This property will return the `Component` that was wrapped by `createStore(Component)`. It is not directly settable.
 
 #### -`subscribe(Component: React.Component, toProps: function)`: `SubscriberComponent`
 Creates and returns a `SubscriberComponent` wrapped around the supplied `Component`.
 
-##### -`toProps(storeState: Object, storeProps: Object, storeActions: Object)`: `Object`
+###### -`toProps(storeState: Object, storeProps: Object, storeActions: Object)`: `Object`
 Gives you access to the `StoreComponent's` state, props, and actions. It must return an object, which will be passed into
 the `SubscriberComponent` as props.
 
-##### -`SubscriberComponent.WrappedComponent`: `React.Component`
+###### -`SubscriberComponent.WrappedComponent`: `React.Component`
 This property will return the `Component` that was wrapped by `subscribe(Component, toProps)`. It is not directly settable.
 
 
