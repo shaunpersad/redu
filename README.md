@@ -55,7 +55,7 @@ With just these two concepts, you can keep your application state in a single `S
 `StoreComponents` and `SubscriberComponents` are just regular `React.Components` themselves, so you get all the familiarity, freedom, and tooling that "vanilla" React provides, but with the powerful benefits of application-level state management.
 
 
-## What problems does it solve?
+## What does it solve?
 
 ### Problem #1: threading props down multiple levels
 
