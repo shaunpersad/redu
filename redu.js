@@ -114,6 +114,7 @@ export function createStore(Component) {
 
         /**
          * You can get the initial state back.
+         *
          * @returns {{}}
          */
         static get initialState() {
@@ -121,7 +122,8 @@ export function createStore(Component) {
         }
 
         /**
-         * You can get the action functions back (though unbound).
+         * You can get the unbound action functions back.
+         *
          * @returns {{}}
          */
         static get actions() {
@@ -194,7 +196,7 @@ export function createSubscriber(Component, toProps = (storeState, storeProps, s
         /**
          * You can get the toProps function back.
          *
-         * @returns {Function}
+         * @returns {function}
          */
         static get toProps() {
             return toProps;
