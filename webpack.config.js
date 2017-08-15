@@ -2,10 +2,10 @@ const path = require('path');
 module.exports = {
     entry: {
         ['github-users']: './examples/github-users/src/app.js',
+        ['github-users-substore']: './examples/github-users-substore/src/app.js',
         ['readme-redu']: './examples/readme-redu/src/app.js',
+        ['readme-redu-substore']: './examples/readme-redu-substore/src/app.js',
         ['readme-vanilla-react']: './examples/readme-vanilla-react/src/app.js',
-        ['substore']: './examples/substore/src/app.js',
-        ['substore-undo']: './examples/substore-undo/src/app.js'
     },
     output: {
         filename: './examples/[name]/dist/bundle.js'
