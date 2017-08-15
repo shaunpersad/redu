@@ -37,7 +37,7 @@ class Counter extends React.Component {
 
 No reducers, no string constants, just _event_ => _action function_ => _setState_.
 
-Redu performs this exact same flow, but at the **application level**, where a single `StoreComponent's` state acts as your application-level state, and any of its descendant `SubscriberComponents` may derive props from this state, which can include action functions to request application-level state changes.
+Redu performs this exact same flow, but at the **application level**, where a single "store" component's state acts as your application-level state, and any of its descendant "subscriber" components may derive props from this state, which can include action functions to request application-level state changes.
 
 
 ## How does it work?
