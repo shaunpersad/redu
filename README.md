@@ -7,7 +7,7 @@ Simple application-level state management for React apps.
 
 Redu brings React's component-level state management up to the application level.
 
-As far as state management solutions go, Redux is already simple.  At least, that's the idea.  The reality is that while action creators, actions, and reducers are simple, open-ended concepts, their implementations can become unwieldy, and often leaves us with a lot of boilerplate.
+As far as application-level state management solutions go, Redux is a simple solution.  At least, that's the idea.  The reality is that while action creators, actions, and reducers are simple, open-ended concepts, their implementations can become unwieldy, and often leaves us with a lot of boilerplate.
 
 What _is_ simple, is React's built-in **component-level** state management, where events trigger action functions, which in turn call `setState`, to update that component's state:
 ```jsx harmony

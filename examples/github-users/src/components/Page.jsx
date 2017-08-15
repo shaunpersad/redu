@@ -7,8 +7,6 @@ import Status from './Status';
 import UsersList from './UsersList';
 import User from './User';
 
-import {createSubscriber} from 'redu';
-
 /**
  * Our top-level component. Using React's "functional" component style:
  * https://facebook.github.io/react/docs/components-and-props.html#functional-and-class-components
