@@ -100,5 +100,58 @@ It's no secret that implementing a new stateful feature in Redux can be a chore.
 
 With Redu, the process is almost exactly the same as creating a stateful feature in a single "vanilla" component, with the addition of implementing simple `toProps` functions to allow ancestor components to derive what they need out of the store as props.
 
+
+## Quickstart
+Imagine an app with the following structure:
+```jsx harmony
+<ComponentA>
+    <ComponentB>
+        <ComponentC />
+    </ComponentB>
+</ComponentA>
+```
+We could create a `StoreComponent` like so:
+```jsx harmony
+import { createStore } from 'redu';
+
+const Store = createStore(ComponentA);
+
+Store.initialState = {
+    greeting: 'Hello'
+};
+Store.actions = {
+    changeGreeting() {
+        
+        this.setState({ greeting: 'Hola' });
+    }
+};
+
+export default Store;
+```
+
+And have components subscribe to that store like so:
+```jsx harmony
+import { createSubscriber } from 'redu';
+function ComponentC(props) {
+    return (
+        <div>
+            <p>{props.greeting} World!</p>
+            <button onClick={props.changeGreeting}>Translate</button>
+        </div>
+    );
+}
+
+export default createSubscriber(ComponentC, (storeState, storeProps, storeActions) => {
+   
+    return {
+        greeting: storeState.greeting,
+        changeGreeting: storeActions.changeGreeting
+    };
+});
+
+```
+
+Note that, while we only chose to showcase `ComponentC`, we could create subscribers out of `ComponentA` or `ComponentB` as well, should they need to derive anything from the store.
+
 ---
 Next: [Usage](https://github.com/shaunpersad/redu/wiki)
