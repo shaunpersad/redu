@@ -40,7 +40,6 @@ No reducers, no string constants, just _event_ => _action function_ => _setState
 Redu performs this exact same flow, but at an **application level**, where a single `StoreComponent's` state acts as your application-level state, and any of its descendant `SubscriberComponents` may derive props from this state, which can include action functions to request application-level state changes.
 
 
----
 ## How does it work?
 
 Redu is comprised of two functions: `createStore(Component)`, and `createSubscriber(Component, toProps)`.
@@ -56,7 +55,6 @@ With just these two concepts, you can keep your application state in a single `S
 `StoreComponents` and `SubscriberComponents` are just regular `React.Components` themselves, so you get all the familiarity, freedom, and tooling that "vanilla" React provides, but with the powerful benefits of application-level state management.
 
 
----
 ## What problems does it solve?
 
 ### Problem #1: threading props down multiple levels
