@@ -132,6 +132,7 @@ export default Store;
 And have components subscribe to that store like so:
 ```jsx harmony
 import { createSubscriber } from 'redu';
+
 function ComponentC(props) {
     return (
         <div>
