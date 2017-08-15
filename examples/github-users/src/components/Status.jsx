@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {subscribe} from 'redu';
+import {createSubscriber} from 'redu';
 
 
 class Status extends React.Component {
@@ -54,7 +54,7 @@ class Status extends React.Component {
 /**
  * Wrap the Status component in a SubscriberComponent.
  */
-export default subscribe(Status, (pageStoreState, pageStoreProps, pageStoreActions) => {
+export default createSubscriber(Status, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against

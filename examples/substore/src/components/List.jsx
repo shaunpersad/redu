@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {subscribe} from 'redu';
+import {createSubscriber} from 'redu';
 
 
 class List extends React.Component {
@@ -34,7 +34,7 @@ class List extends React.Component {
     }
 }
 
-export default subscribe(List, (storeState, storeProps, storeActions) => {
+export default createSubscriber(List, (storeState, storeProps, storeActions) => {
 
     return {
         listItems: storeState.listItems || [],

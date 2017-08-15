@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {subscribe} from 'redu';
+import {createSubscriber} from 'redu';
 
 
 function ReposListItem(props) {
@@ -34,7 +34,7 @@ function ReposListItem(props) {
 /**
  * Wrap the ReposListItem component in a SubscriberComponent.
  */
-export default subscribe(ReposListItem, (userSubStoreState, userSubStoreProps, userSubStoreActions) => {
+export default createSubscriber(ReposListItem, (userSubStoreState, userSubStoreProps, userSubStoreActions) => {
 
     /**
      * Gives us a "displayRepo" prop, which maps to the "displayRepo" action in the StoreComponent.

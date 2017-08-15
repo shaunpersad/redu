@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {subscribe} from 'redu';
+import {createSubscriber} from 'redu';
 
 
 class Search extends React.Component {
@@ -24,7 +24,7 @@ class Search extends React.Component {
      * Below, we use "query" prop, which is actually derived from
      * the StoreComponent's "searchQuery" state.
      *
-     * Examine the "subscribe" function below to see how this derivation happens.
+     * Examine the "createSubscriber" function below to see how this derivation happens.
      */
     render() {
 
@@ -47,7 +47,7 @@ class Search extends React.Component {
 /**
  * Wrap the Search component in a SubscriberComponent.
  */
-export default subscribe(Search, (pageStoreState, pageStoreProps, pageStoreActions) => {
+export default createSubscriber(Search, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against

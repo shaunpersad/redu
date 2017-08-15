@@ -70,7 +70,7 @@ PageStore.actions = {
      */
     reset() {
 
-        this.setState(initialState);
+        this.setState(PageStore.initialState);
     },
     /**
      * Search for a GitHub user.

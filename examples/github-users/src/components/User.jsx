@@ -2,13 +2,13 @@
 
 import React from 'react';
 
-import {subscribe} from 'redu';
+import {createSubscriber} from 'redu';
 
 /**
  * Another "functional" component style.
  *
  * Utilizes the "userToDisplay" state property from the StoreComponent,
- * but is renamed to "user" when derived as a prop. See the "subscribe"
+ * but is renamed to "user" when derived as a prop. See the "createSubscriber"
  * call at the bottom to examine how this happens.
  */
 function User(props) {
@@ -45,7 +45,7 @@ function User(props) {
 /**
  * Wrap the User component in a SubscriberComponent.
  */
-export default subscribe(User, (pageStoreState, pageStoreProps, pageStoreActions) => {
+export default createSubscriber(User, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against

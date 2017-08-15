@@ -1,6 +1,6 @@
 "use strict";
 
-import { createStore, subscribe } from 'redu';
+import { createStore, createSubscriber } from 'redu';
 
 import ColorList from '../components/ColorList';
 
@@ -43,7 +43,7 @@ ColorListStore.actions = {
  *
  * @type {SubscriberComponent}
  */
-export default subscribe(ColorListStore, (historyStoreState, historyStoreProps, historyStoreActions) => {
+export default createSubscriber(ColorListStore, (historyStoreState, historyStoreProps, historyStoreActions) => {
 
     return {
         hasHistory: historyStoreActions.hasHistory,

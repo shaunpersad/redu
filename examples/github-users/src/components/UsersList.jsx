@@ -3,14 +3,14 @@
 import React from 'react';
 import UsersListItem from './UsersListItem';
 
-import {subscribe} from 'redu';
+import {createSubscriber} from 'redu';
 
 
 class UsersList extends React.Component {
 
     /**
      * Utilizes the "usersListItems" state property from the StoreComponent,
-     * but is renamed to "users" when derived as a prop. See the "subscribe"
+     * but is renamed to "users" when derived as a prop. See the "createSubscriber"
      * call at the bottom to examine how this happens.
      *
      * @returns {Array}
@@ -42,7 +42,7 @@ class UsersList extends React.Component {
 /**
  * Wrap the UsersList component in a SubscriberComponent.
  */
-export default subscribe(UsersList, (pageStoreState, pageStoreProps, pageStoreActions) => {
+export default createSubscriber(UsersList, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     /**
      * The resulting SubscriberComponent will take this function and execute it against

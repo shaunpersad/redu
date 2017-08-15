@@ -1,6 +1,6 @@
 "use strict";
 import React from 'react';
-import { subscribe } from 'redu';
+import { createSubscriber } from 'redu';
 import Color from './Color';
 
 function ColorList(props) {
@@ -20,7 +20,7 @@ function ColorList(props) {
     );
 }
 
-export default subscribe(ColorList, (colorListSubStoreState, colorListSubStoreProps, colorListSubStoreActions) => {
+export default createSubscriber(ColorList, (colorListSubStoreState, colorListSubStoreProps, colorListSubStoreActions) => {
 
     return {
         selectedColor: colorListSubStoreState.selectedColor,

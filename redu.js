@@ -1,10 +1,10 @@
 /**
  * Redu is comprised of two functions:
- * createStore(Component), and subscribe(Component).
+ * createStore(Component), and createSubscriber(Component, toProps).
  * Both functions take in a React.Component, and create and return wrapper components around them.
  *
  * createStore(Component) creates and returns a StoreComponent.
- * subscribe(Component) creates and returns a SubscriberComponent.
+ * createSubscriber(Component, toProps) creates and returns a SubscriberComponent.
  *
  * StoreComponents wrap your top-level component and manages the application-level state.
  *
@@ -40,14 +40,6 @@ const contextTypes = {
  * @returns {StoreComponent}
  */
 export function createStore(Component) {
-
-    /**
-     * An object containing the default props of the store component.
-     *
-     * @type {{}}
-     * @private
-     */
-    let _defaultProps = {};
 
     /**
      * The initial state of the StoreComponent. It should represent a complete picture of your application-level state.
@@ -107,15 +99,6 @@ export function createStore(Component) {
         }
 
         /**
-         * You may directly set the default props.
-         *
-         * @param {{}} defaultProps
-         */
-        static set defaultProps(defaultProps) {
-            _defaultProps = defaultProps;
-        }
-
-        /**
          * You may directly set the initial state.
          *
          * @param {{}} initialState
@@ -131,14 +114,6 @@ export function createStore(Component) {
          */
         static set actions(actions) {
             _actions = actions;
-        }
-
-        /**
-         * You can get the default props back.
-         * @returns {{}}
-         */
-        static get defaultProps() {
-            return _defaultProps;
         }
 
         /**
@@ -164,7 +139,7 @@ export function createStore(Component) {
          */
         static get childContextTypes() {
 
-            return Object.assign({}, contextTypes, super.contextTypes || {});
+            return contextTypes;
         }
 
         /**
@@ -192,12 +167,7 @@ export function createStore(Component) {
  * @param {function} toProps
  * @returns {SubscriberComponent}
  */
-export function subscribe(
-    Component,
-    toProps = (storeComponentState, storeComponentProps, storeComponentActions) => {
-        return {};
-    }
-) {
+export function createSubscriber(Component, toProps = (storeState, storeProps, storeActions) => {return {};}) {
 
     class SubscriberComponent extends React.Component {
 
@@ -241,7 +211,7 @@ export function subscribe(
          */
         static get contextTypes() {
 
-            return Object.assign({}, contextTypes, super.contextTypes || {});
+            return contextTypes;
         }
 
         /**

@@ -3,7 +3,7 @@
 import React from 'react';
 import _isEqual from 'lodash.isequal';
 
-import { subscribe } from 'redu';
+import { createSubscriber } from 'redu';
 
 import Search from './Search';
 import Status from './Status';
@@ -67,7 +67,7 @@ class User extends React.Component {
     }
 }
 
-export default subscribe(User, (userSubStoreState, userSubStoreProps, userSubStoreActions) => {
+export default createSubscriber(User, (userSubStoreState, userSubStoreProps, userSubStoreActions) => {
 
     return {
         search: userSubStoreActions.search

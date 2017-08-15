@@ -1,7 +1,7 @@
 "use strict";
 import _debounce from 'lodash.debounce';
 
-import { createStore, subscribe } from 'redu';
+import { createStore, createSubscriber } from 'redu';
 
 import User from '../components/User';
 
@@ -49,7 +49,7 @@ UserStore.actions = {
 };
 
 
-export default subscribe(UserStore, (pageStoreState, pageStoreProps, pageStoreActions) => {
+export default createSubscriber(UserStore, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     return {
         user: pageStoreState.userToDisplay,

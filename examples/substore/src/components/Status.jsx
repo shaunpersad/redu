@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {subscribe} from 'redu';
+import {createSubscriber} from 'redu';
 
 
 class Status extends React.Component {
@@ -49,7 +49,7 @@ class Status extends React.Component {
 }
 
 
-export default subscribe(Status, (storeState, storeProps, storeActions) => {
+export default createSubscriber(Status, (storeState, storeProps, storeActions) => {
 
     return {
         searchQuery: storeState.searchQuery,

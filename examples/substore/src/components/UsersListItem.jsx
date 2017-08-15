@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {subscribe} from 'redu';
+import {createSubscriber} from 'redu';
 
 
 class UsersListItem extends React.Component {
@@ -62,7 +62,7 @@ class UsersListItem extends React.Component {
     }
 }
 
-export default subscribe(UsersListItem, (pageStoreState, pageStoreProps, pageStoreActions) => {
+export default createSubscriber(UsersListItem, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     return {
         displayUser: pageStoreActions.displayUser

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {subscribe} from 'redu';
+import {createSubscriber} from 'redu';
 
 /**
  * This component illustrates that not all state needs to be tracked by the StoreComponent.
@@ -74,7 +74,7 @@ class UsersListItem extends React.Component {
 /**
  * Wrap the UsersListItem component in a SubscriberComponent.
  */
-export default subscribe(UsersListItem, (pageStoreState, pageStoreProps, pageStoreActions) => {
+export default createSubscriber(UsersListItem, (pageStoreState, pageStoreProps, pageStoreActions) => {
 
     /**
      * Gives us a "displayUser" prop, which maps to the "displayUser" action in the StoreComponent.

@@ -7,7 +7,7 @@ import Status from './Status';
 import UsersList from './UsersList';
 import User from './User';
 
-import {subscribe} from 'redu';
+import {createSubscriber} from 'redu';
 
 /**
  * Our top-level component. Using React's "functional" component style:
