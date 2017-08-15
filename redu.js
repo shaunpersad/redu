@@ -44,8 +44,6 @@ export function createStore(Component) {
     /**
      * The initial state of the StoreComponent. It should represent a complete picture of your application-level state.
      *
-     * The initial state can be defined with the "withInitialState" method.
-     *
      * @type {{}}
      * @private
      */
@@ -55,8 +53,6 @@ export function createStore(Component) {
      * An object containing action functions that will be bound to the StoreComponent,
      * and made available through the "actions" property. Action functions will generally call "this.setState",
      * which will update the StoreComponent's state.
-     *
-     * Actions can be defined with the "withActions" method.
      *
      * @type {{}}
      * @private
