@@ -121,12 +121,16 @@ const Store = createStore(ComponentA);
 /**
 * This is your application-level state.
 */
-Store.initialState = { // This is your application-level state
+Store.initialState = {
     greeting: 'Hello'
 };
 /**
 * These are the actions you can perform to modify the application-level state.
-* The "this" refers to the Store component.
+* Every action function is automatically bound to the instance of the StoreComponent it belongs to,
+* and therefore can be used just like component-level action functions, 
+* because it is one!
+* 
+* It's just like the "increment()" function in the Counter example.
 */
 Store.actions = {
     changeGreeting() {
