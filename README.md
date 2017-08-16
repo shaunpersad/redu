@@ -125,12 +125,7 @@ Store.initialState = {
     greeting: 'Hello'
 };
 /**
-* These are the actions you can perform to modify the application-level state.
-* Every action function is automatically bound to the instance of the StoreComponent it belongs to,
-* and therefore can be used just like component-level action functions, 
-* because it is one!
-* 
-* It's just like the "increment()" function in the Counter example.
+* These are the actions you can perform to modify the StoreComponent's state.
 */
 Store.actions = {
     changeGreeting() {
