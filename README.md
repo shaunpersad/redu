@@ -141,8 +141,8 @@ And have components subscribe to that store like so:
 ```jsx harmony
 import { createSubscriber } from 'redu';
 /**
-* ComponentC, though 3 level down from the StoreComponent, 
-* will be able to utilize and even modify that StoreComponent's state as props.
+* ComponentC, though three levels down from the StoreComponent, 
+* will be able to utilize and even modify that StoreComponent's state via its derived props.
 */
 function ComponentC(props) {
     return (
