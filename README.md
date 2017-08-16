@@ -129,7 +129,7 @@ export default createSubscriber(ComponentC, toProps);
 ```
 `createSubscriber's` first argument is `ComponentC`, the component you wish to wrap in a `SubscriberComponent`.
 
-The second argument is a function that you can use to derive and return a single object based on the `StoreComponent's` state, props, and actions.
+The second argument is the `toProps` function that is used to derive and return a single object based on the `StoreComponent's` state, props, and actions.
 
 This object is then used by the `SubscriberComponent` to pass down to `ComponentC` as props. `ComponentC` is now able to use aspects of the application-level state (`greeting`), as well as request changes to that state (`changeGreeting`).
 
