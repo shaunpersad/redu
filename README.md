@@ -114,11 +114,20 @@ We could create a `StoreComponent` like so:
 ```jsx harmony
 import { createStore } from 'redu';
 
+/**
+* Wrap your top-most component (ComponentA) in a StoreComponent.
+*/
 const Store = createStore(ComponentA);
-
-Store.initialState = {
+/**
+* This is your application-level state.
+*/
+Store.initialState = { // This is your application-level state
     greeting: 'Hello'
 };
+/**
+* These are the actions you can perform to modify the application-level state.
+* The "this" refers to the Store component.
+*/
 Store.actions = {
     changeGreeting() {
         
@@ -132,7 +141,10 @@ export default Store;
 And have components subscribe to that store like so:
 ```jsx harmony
 import { createSubscriber } from 'redu';
-
+/**
+* ComponentC, though 3 level down from the StoreComponent, 
+* will be able to utilize and even modify that StoreComponent's state as props.
+*/
 function ComponentC(props) {
     return (
         <div>
@@ -141,7 +153,14 @@ function ComponentC(props) {
         </div>
     );
 }
-
+/**
+* createSubscriber's first argument is the Component you with to wrap in a SubscriberComponent.
+* 
+* The second argument is a function that you can use to derive an object based on the StoreComponent's
+* state, props, and actions.
+* 
+* This object is then passed down to ComponentC as props.
+*/
 export default createSubscriber(ComponentC, (storeState, storeProps, storeActions) => {
    
     return {
