@@ -159,6 +159,8 @@ function ComponentC(props) {
 * state, props, and actions.
 * 
 * This object is then passed down to ComponentC as props.
+* 
+* Here we are actually exporting a SubscriberComponent that wraps ComponentC.
 */
 export default createSubscriber(ComponentC, (storeState, storeProps, storeActions) => {
    
