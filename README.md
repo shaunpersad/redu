@@ -55,53 +55,8 @@ With just these two concepts, you can keep your application state in a single `S
 `StoreComponents` and `SubscriberComponents` are just regular `React.Components` themselves, so you get all the familiarity, freedom, and tooling that "vanilla" React provides, but with the powerful benefits of application-level state management.
 
 
-## What does it solve?
+### Quickstart Example
 
-### Problem #1: threading props down multiple levels
-
-Let's say my app looks like this:
-```jsx harmony
-<PageComponent>
-    <ChildComponent>
-        <GrandChildComponent />
-    </ChildComponent>
-</PageComponent>
-```
-If the `GrandChildComponent` wanted to utilize props or state from the `PageComponent`, you'd have to pass them down first to the `ChildComponent`, then to the `GrandChildComponent`. Also, if you wanted to modify the `PageComponent`'s state from the `GrandChildComponent`, you'd have to pass down an action function in the same manner, so that the `GrandChildComponent` would be able to call it.
-
-With Redu, the application-level state is stored in the `StoreComponent` which wraps the `PageComponent`, and the 
-`GrandChildComponent` gets wrapped in a `SubscriberComponent`, which can pass down anything to the `GrandChildComponent` that it needs from the `StoreComponent` as props:
-```jsx harmony
-<StoreComponent>
-    <PageComponent>
-        <ChildComponent>
-            <SubscriberComponent>
-                <GrandChildComponent />
-            </SubscriberComponent>
-        </ChildComponent>
-    </PageComponent>
-</StoreComponent>
-```
-
-
-### Problem #2: Scattered application state
-
-Redu can eliminate as much component-level state as you want, and combine them into a single application-level state object. Your descendant components can then pull out or modify whichever properties of this state that they wish. 
-
-Condensing your application's state into a single object can be beneficial for quickly understanding what your app
-does and how it does it, along with other bonuses like being able to serialize/save/deserialize your app state.
- 
-That said, there's nothing wrong with having component-level state. You have the freedom to choose what state should be application-level and what should be component-level.
-
-
-### Problem #3: Redux boilerplate
-
-It's no secret that implementing a new stateful feature in Redux can be a chore. You create action creators, actions, and reducers, and if what you need to do is asynchronous, there are even more hoops to jump through.
-
-With Redu, the process is almost exactly the same as creating a stateful feature in a single "vanilla" component, with the addition of implementing simple `toProps` functions to allow ancestor components to derive what they need out of the store as props.
-
-
-## Quickstart
 Imagine an app with the following structure:
 ```jsx harmony
 <ComponentA>
@@ -174,5 +129,51 @@ This object is then passed down to `ComponentC` as props. `ComponentC` is now ab
 
 Note that, while we only chose to showcase `ComponentC`, we could create subscribers out of `ComponentA` or `ComponentB` as well, should they need to derive anything from the store.
 
+
+## What does it solve?
+
+### Problem #1: threading props down multiple levels
+
+In the [Quickstart Example](#quickstart-example), we had an app with the following structure:
+```jsx harmony
+<ComponentA>
+    <ComponentB>
+        <ComponentC />
+    </ComponentB>
+</ComponentA>
+```
+If `ComponentC` wanted to utilize props or state from the top-level component, `ComponentA`, you'd have to pass them down first to `ComponentB`, then to the `ComponentC`. Also, if you wanted to modify `ComponentA's` state from `ComponentC`, you'd have to pass down an action function in the same manner, so that `ComponentC` would be able to call it.
+
+With Redu, the application-level state is stored in the `StoreComponent` which wraps `ComponentA`, and `ComponentC` gets wrapped in a `SubscriberComponent`, which can pass down anything to `ComponentC` that it needs from the `StoreComponent` as props:
+```jsx harmony
+<StoreComponent>
+    <ComponentA>
+        <ComponentB>
+            <SubscriberComponent>
+                <ComponentC />
+            </SubscriberComponent>
+        </ComponentB>
+    </ComponentA>
+</StoreComponent>
+```
+This same idea can be applied to any child component, regardless of how far down the tree they are.
+
+
+### Problem #2: Scattered application state
+
+Redu can eliminate as much component-level state as you want, and combine them into a single application-level state object. Your descendant components can then pull out or modify whichever properties of this state that they wish. 
+
+Condensing your application's state into a single object can be beneficial for quickly understanding what your app
+does and how it does it, along with other bonuses like being able to serialize/save/deserialize your app state.
+ 
+That said, there's nothing wrong with having component-level state. You have the freedom to choose what state should be application-level and what should be component-level.
+
+
+### Problem #3: Redux boilerplate
+
+It's no secret that implementing a new stateful feature in Redux can be a chore. You create action creators, actions, and reducers, and if what you need to do is asynchronous, there are even more hoops to jump through.
+
+With Redu, the process is almost exactly the same as creating a stateful feature in a single "vanilla" component, with the addition of implementing simple `toProps` functions to allow ancestor components to derive what they need out of the store as props.
+
 ---
-Next: [Usage](https://github.com/shaunpersad/redu/wiki)
+Next: [Installation and full API](https://github.com/shaunpersad/redu/wiki)
