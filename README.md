@@ -39,6 +39,7 @@ No reducers, no string constants, just _event_ => _action function_ => _setState
 
 Redu performs this exact same flow, but at the **application level**, where a single "store" component's state acts as your application-level state, and any of its descendant "subscriber" components may derive props from the store component's state and props, which can include action functions to request application-level state changes.
 
+&nbsp;
 
 ## How does it work?
 
@@ -135,6 +136,7 @@ This object is then used by the `SubscriberComponent` to pass down to `Component
 
 Note that, while we only chose to showcase `ComponentC`, we could create subscribers out of `ComponentA` or `ComponentB` as well, should they need to derive anything from the store.
 
+&nbsp;
 
 ## What does it solve?
 
