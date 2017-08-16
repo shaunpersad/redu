@@ -111,7 +111,7 @@ function ComponentC(props) {
 }
 /**
 * This is a function that can take in the StoreComponent's state, props, and actions,
-* and derive and return an object, which will be passed to ComponentC as props.
+* and derive and return an object that will be passed to ComponentC as props.
 */
 const toProps = (storeState, storeProps, storeActions) => {
                    
