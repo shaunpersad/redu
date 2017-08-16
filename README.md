@@ -110,22 +110,28 @@ function ComponentC(props) {
     );
 }
 /**
-* Here we are actually exporting a SubscriberComponent that wraps ComponentC, which will end up being used in place of ComponentC seamlessly.
+* This is a function that can take in the StoreComponent's state, props, and actions,
+* and derive and return an object based on those arguments.
 */
-export default createSubscriber(ComponentC, (storeState, storeProps, storeActions) => {
-   
+const toProps = (storeState, storeProps, storeActions) => {
+                   
     return {
         greeting: storeState.greeting,
         changeGreeting: storeActions.changeGreeting
     };
-});
+}
+
+/**
+* Here we are actually exporting a SubscriberComponent that wraps ComponentC, which will end up being used in place of ComponentC seamlessly.
+*/
+export default createSubscriber(ComponentC, toProps);
 
 ```
 `createSubscriber's` first argument is `ComponentC`, the component you wish to wrap in a `SubscriberComponent`.
 
 The second argument is a function that you can use to derive and return a single object based on the `StoreComponent's` state, props, and actions.
 
-This object is then passed down to `ComponentC` as props. `ComponentC` is now able to use aspects of the application-level state (`greeting`), as well as request changes to that state (`changeGreeting`).
+This object is then used by the `SubscriberComponent` to pass down to `ComponentC` as props. `ComponentC` is now able to use aspects of the application-level state (`greeting`), as well as request changes to that state (`changeGreeting`).
 
 Note that, while we only chose to showcase `ComponentC`, we could create subscribers out of `ComponentA` or `ComponentB` as well, should they need to derive anything from the store.
 
