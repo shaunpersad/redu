@@ -2,6 +2,7 @@
 
 Simple application-level state management for React apps.
 
+&nbsp;
 
 ## What is it?
 
@@ -138,7 +139,7 @@ Note that, while we only chose to showcase `ComponentC`, we could create subscri
 
 &nbsp;
 
-## What does it solve?
+## What does Redu solve?
 
 ### Problem #1: threading props down multiple levels
 
