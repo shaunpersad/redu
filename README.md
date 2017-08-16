@@ -133,7 +133,9 @@ Store.actions = {
         this.setState({ greeting: 'Hola' });
     }
 };
-
+/**
+* Here we are exporting the StoreComponent, which will end up being mounted to the DOM.
+*/
 export default Store;
 ```
 
