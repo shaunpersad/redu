@@ -151,7 +151,7 @@ In the [Quickstart Example](#quickstart-example), we had an app with the followi
     </ComponentB>
 </ComponentA>
 ```
-If `ComponentC` wanted to utilize props or state from the top-level component, `ComponentA`, you'd have to pass them down first to `ComponentB`, then to the `ComponentC`. Also, if you wanted to modify `ComponentA's` state from `ComponentC`, you'd have to pass down an action function in the same manner, so that `ComponentC` would be able to call it.
+Without Redu, if `ComponentC` wanted to utilize props or state from the top-level component, `ComponentA`, you'd have to pass them down first to `ComponentB`, then to the `ComponentC`. Also, if you wanted to modify `ComponentA's` state from `ComponentC`, you'd have to pass down an action function in the same manner, so that `ComponentC` would be able to call it.
 
 With Redu, the application-level state is stored in the `StoreComponent` which wraps `ComponentA`, and `ComponentC` gets wrapped in a `SubscriberComponent`, which can pass down anything to `ComponentC` that it needs from the `StoreComponent` as props:
 ```jsx harmony
