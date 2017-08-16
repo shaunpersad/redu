@@ -168,7 +168,7 @@ export default createSubscriber(ComponentC, (storeState, storeProps, storeAction
 
 The second argument is a function that you can use to derive and return a single object based on the `StoreComponent's` state, props, and actions.
 
-This object is then passed down to `ComponentC` as props.  `ComponentC` is now able to use aspects of the application-level state (`greeting`), as well as request changes to that state (`changeGreeting`).
+This object is then passed down to `ComponentC` as props. `ComponentC` is now able to use aspects of the application-level state (`greeting`), as well as request changes to that state (`changeGreeting`).
 
 Note that, while we only chose to showcase `ComponentC`, we could create subscribers out of `ComponentA` or `ComponentB` as well, should they need to derive anything from the store.
 
