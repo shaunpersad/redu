@@ -74,17 +74,17 @@ import { createStore } from 'redu';
 /**
 * Wrap your top-most component (ComponentA) in a StoreComponent.
 */
-const Store = createStore(ComponentA);
+const StoreComponent = createStore(ComponentA);
 /**
-* This is your application-level state.
+* This is your application-level state. This will become the StoreComponent's state.
 */
-Store.initialState = {
+StoreComponent.initialState = {
     greeting: 'Hello'
 };
 /**
 * These are the actions you can perform to modify the StoreComponent's state.
 */
-Store.actions = {
+StoreComponent.actions = {
     changeGreeting() {
         
         this.setState({ greeting: 'Hola' });
@@ -93,7 +93,7 @@ Store.actions = {
 /**
 * Here we are exporting the StoreComponent that wraps ComponentA, which will end up being mounted to the DOM.
 */
-export default Store;
+export default StoreComponent;
 ```
 
 And have components subscribe to that store like so:
