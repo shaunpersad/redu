@@ -134,7 +134,7 @@ Store.actions = {
     }
 };
 /**
-* Here we are exporting the StoreComponent, which will end up being mounted to the DOM.
+* Here we are exporting the StoreComponent that wraps ComponentA, which will end up being mounted to the DOM.
 */
 export default Store;
 ```
@@ -155,7 +155,7 @@ function ComponentC(props) {
     );
 }
 /**
-* Here we are actually exporting a SubscriberComponent that wraps ComponentC.
+* Here we are actually exporting a SubscriberComponent that wraps ComponentC, which will end up being used in place of ComponentC seamlessly.
 */
 export default createSubscriber(ComponentC, (storeState, storeProps, storeActions) => {
    
