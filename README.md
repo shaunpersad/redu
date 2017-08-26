@@ -186,6 +186,6 @@ With Redu, the process is almost exactly the same as creating a stateful feature
 
 &nbsp;
 
-## API and more examples
+## Installation, API and more examples and concepts
 
 Continue reading [here](https://github.com/shaunpersad/redu/wiki).
