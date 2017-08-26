@@ -184,5 +184,8 @@ It's no secret that implementing a new stateful feature in Redux can be a chore.
 
 With Redu, the process is almost exactly the same as creating a stateful feature in a single "vanilla" component, with the addition of implementing simple `toProps` functions to allow ancestor components to derive what they need out of the store as props.
 
----
-Next: [Installation and full API](https://github.com/shaunpersad/redu/wiki)
+&nbsp;
+
+## API and more examples
+
+Continue reading [here](https://github.com/shaunpersad/redu/wiki).
