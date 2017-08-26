@@ -9,9 +9,9 @@
 
 import 'whatwg-fetch';
 import _debounce from 'lodash.debounce';
+import { createStore } from 'redu'; // will create a StoreComponent wrapping the top-most component.
 
 import Page from '../components/Page'; // our top-most component.
-import { createStore } from 'redu'; // will create a StoreComponent wrapping the top-most component.
 
 /**
  * Create our PageStore StoreComponent.
@@ -25,7 +25,7 @@ const PageStore = createStore(Page);
  * Consequently, all our actions and our SubscriberComponents
  * will also gain access to these props.
  *
- * This is a handy place to put utilities that will be used across the application.
+ * This is a handy place to put utilities and config that will be used across the application.
  */
 PageStore.defaultProps = {
     utils: {
@@ -119,10 +119,4 @@ PageStore.actions = {
     }, 500)
 };
 
-/**
- * Create the StoreComponent to wrap our top-level Page component,
- * and pass in our actions and initialState.
- *
- * @type {StoreComponent}
- */
 export default PageStore;

@@ -4,7 +4,10 @@ import React from 'react';
 
 import {createSubscriber} from 'redu';
 
-
+/**
+ * This is a more generic version of the Search component from the github-users example.
+ * It is able to search both users and repos.
+ */
 class Search extends React.Component {
 
     constructor(props) {
@@ -17,15 +20,9 @@ class Search extends React.Component {
 
         const searchQuery = e.currentTarget.value;
 
-        this.props.search(searchQuery); // an action derived from the StoreComponent.
+        this.props.search(searchQuery);
     }
 
-    /**
-     * Below, we use "query" prop, which is actually derived from
-     * the StoreComponent's "searchQuery" state.
-     *
-     * Examine the "createSubscriber" function below to see how this derivation happens.
-     */
     render() {
 
         return (
@@ -45,20 +42,10 @@ class Search extends React.Component {
 }
 
 /**
- * Wrap the Search component in a SubscriberComponent.
+ * Regardless of which store it is subscribed to, it will pull out the relevant search query,
+ * the entity ("user", or "repo"), and the relevant search action.
  */
 export default createSubscriber(Search, (storeState, storeProps, storeActions) => {
-
-    /**
-     * The resulting SubscriberComponent will take this function and execute it against
-     * the StoreComponent's state, props, and actions. The resulting object will get merged into
-     * the Search component's props, which is how we have "query" prop,
-     * without it being explicitly passed in by the Page component.
-     *
-     * This is also how we turned "searchQuery" from the StoreComponent's state into "query"
-     * in the Search component's props.
-     *
-     */
 
     return {
         query: storeState.searchQuery,

@@ -7,10 +7,10 @@ import ColorOptions from './ColorOptions';
 function Color(props) {
 
     return (
-        <div>
-            <span>This color is {props.color}</span>
+        <li className="list-group-item">
+            <p>This color is <span style={{color: props.color}}>{props.color}</span></p>
             <ColorOptions color={props.color} />
-        </div>
+        </li>
     );
 }
 

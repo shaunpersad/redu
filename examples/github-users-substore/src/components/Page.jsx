@@ -8,6 +8,12 @@ import List from './List';
 import UsersListItem from './UsersListItem';
 import UserSubStore from '../stores/UserSubStore';
 
+/**
+ * Notice that, unlike the Page component in the github-users example,
+ * this one is using the UserSubStore component instead of the User component.
+ *
+ * It is also using the more generic List component instead of the UsersList component.
+ */
 function Page() {
 
     return (
@@ -41,10 +47,4 @@ function Page() {
     );
 }
 
-/**
- *
- * The Page component is not actually using any props derived out of the StoreComponent,
- * so we do not need to wrap it. All of its child components that are SubscriberComponents
- * will still function regardless.
- */
 export default Page;

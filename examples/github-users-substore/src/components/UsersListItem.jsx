@@ -4,7 +4,9 @@ import React from 'react';
 
 import {createSubscriber} from 'redu';
 
-
+/**
+ * A list item component specific to users.
+ */
 class UsersListItem extends React.Component {
 
     constructor(props) {

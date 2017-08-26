@@ -1,3 +1,8 @@
+/**
+ * Note that, in order to highlight differences,
+ * the original comments from the basic example have been removed.
+ */
+
 "use strict";
 
 import { createStore, createSubscriber } from 'redu';
@@ -15,18 +20,33 @@ ColorListStore.initialState = {
 };
 
 ColorListStore.actions = {
+    /**
+     * This helper action will set the ColorListStore's state,
+     * as well as add that state to the HistoryStore.
+     * 
+     * @param {{}} state
+     */
     setStateAndHistory(state = {}) {
 
         this.props.addToHistory(state, (state) => {
             this.setState(state);
         });
     },
+    /**
+     * Will change the selectedColor.
+     * Note that it uses the setStateAndHistory helper action.
+     * 
+     * @param {string} color
+     */
     changeColor(color) {
 
         this.actions.setStateAndHistory({
             selectedColor: color
         });
     },
+    /**
+     * Will undo the previous state change.
+     */
     undo() {
         this.props.removeFromHistory((state) => {
             this.setState(state);
@@ -39,7 +59,7 @@ ColorListStore.actions = {
  * which will subscribe to a higher-level StoreComponent called HistoryStore,
  * which will allow us to record and manage the original StoreComponent's state history.
  *
- * The picture looks like this now: ColorListSubStore > ColorListStore > ColorList
+ * The tree looks like this now: ColorListSubStore > ColorListStore > ColorList
  *
  * @type {SubscriberComponent}
  */

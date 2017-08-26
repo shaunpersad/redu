@@ -4,7 +4,10 @@ import React from 'react';
 
 import {createSubscriber} from 'redu';
 
-
+/**
+ * This is a more generic version of the Status component from the github-users example.
+ * It determines the status of both the users search and the repos search.
+ */
 class Status extends React.Component {
 
     makeStatus() {
@@ -37,7 +40,7 @@ class Status extends React.Component {
                     {this.makeStatus()}
                     <button
                         className="btn btn-default"
-                        onClick={this.props.reset /* an action derived from the StoreComponent */ }
+                        onClick={this.props.reset}
                         style={{marginLeft: 10, display: this.props.listItems ? 'inline-block': 'none'}}
                     >
                         reset
@@ -48,7 +51,10 @@ class Status extends React.Component {
     }
 }
 
-
+/**
+ * Regardless of which store it is subscribed to, it will pull out the relevant search query,
+ * the relevant list items, entity ("user", or "repo"), and the relevant reset action.
+ */
 export default createSubscriber(Status, (storeState, storeProps, storeActions) => {
 
     return {

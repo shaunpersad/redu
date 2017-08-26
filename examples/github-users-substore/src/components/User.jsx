@@ -10,7 +10,11 @@ import Status from './Status';
 import List from './List';
 import ReposListItem from './ReposListItem';
 
-
+/**
+ * Notice that this User component uses a lot of the same
+ * sub-components as the Page component. That's because these sub-components
+ * were re-designed to be more generic than their github-users example counterparts.
+ */
 class User extends React.Component {
 
     componentDidMount() {
@@ -20,6 +24,10 @@ class User extends React.Component {
         }
     }
 
+    /**
+     * Immediately commence a search for the user's repos,
+     * if the user has changed.
+     */
     componentDidUpdate(prevProps, prevState) {
 
         if (!_isEqual(prevProps.user, this.props.user) && this.props.user) {
@@ -66,7 +74,9 @@ class User extends React.Component {
         );
     }
 }
-
+/**
+ * Subscribe to the UserSubStore.
+ */
 export default createSubscriber(User, (userSubStoreState, userSubStoreProps, userSubStoreActions) => {
 
     return {

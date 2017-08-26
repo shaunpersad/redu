@@ -7,7 +7,7 @@ import ColorListSubStore from './ColorListSubStore';
 /**
  * Now we have a higher-level StoreComponent.
  *
- * The picture looks like this now: HistoryStore > ColorListSubStore > ColorListStore > ColorList
+ * The tree looks like this now: HistoryStore > ColorListSubStore > ColorListStore > ColorList
  *
  * @type {StoreComponent}
  */
@@ -19,14 +19,30 @@ const HistoryStore = createStore(ColorListSubStore);
  */
 const ColorListStore = ColorListSubStore.WrappedComponent;
 
+/**
+ * The HistoryStore's state will keep track of the ColorListStore's state history via an array.
+ *
+ * @type {{history: [*]}}
+ */
 HistoryStore.initialState = {
     history: [ColorListStore.initialState] // use the ColorListStore's initialState as the first item in the history.
 };
 
 HistoryStore.actions = {
+    /**
+     * Check if there is a history to undo.
+     *
+     * @returns {boolean}
+     */
     hasHistory() {
         return this.state.history.length > 1;
     },
+    /**
+     * Adds the current state to the history.
+     *
+     * @param {{}} state
+     * @param {function} getState
+     */
     addToHistory(state, getState) {
 
         this.setState((prevState) => {
@@ -37,6 +53,11 @@ HistoryStore.actions = {
             getState(this.state.history[this.state.history.length - 1]);
         });
     },
+    /**
+     * Removes the latest state from the history.
+     *
+     * @param getState
+     */
     removeFromHistory(getState) {
 
         this.setState((prevState) => {
@@ -60,7 +81,7 @@ HistoryStore.actions = {
 /**
  * We don't want changes to the history doubly-render the app.
  *
- * The picture looks like this now: DoNotRenderHistoryStoreComponent > ColorListSubStore > ColorListStore > ColorList
+ * The tree looks like this now: DoNotRenderHistoryStoreComponent > ColorListSubStore > ColorListStore > ColorList
  *
  */
 export default class DoNotRenderHistoryStore extends HistoryStore {

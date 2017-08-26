@@ -6,8 +6,9 @@ import { createSubscriber } from 'redu';
 function ColorOptions(props) {
     return (
         <div>
-            <span>Replace {props.selectedColor} with {props.color}?</span>
-            <button onClick={e => props.changeColor(props.color)}>yes</button>
+            <a className="btn" onClick={e => props.changeColor(props.color)}>
+                Replace {props.selectedColor} with {props.color}
+            </a>
         </div>
     );
 }

@@ -1,3 +1,16 @@
+/**
+ * The Store of our example app, which allows you to search for and display GitHub users,
+ * just like the github-users example. Unlike that example, this one also allows you to search
+ * through the selected user's repos.
+ *
+ * Also like the github-users example, this file should provide an accurate representation of this app,
+ * however, there is a sub-store "below" this store, which represents a sufficiently isolated portion
+ * of this app's functionality.
+ *
+ * Note that, in order to highlight differences,
+ * the original comments from the github-users example have been removed.
+ */
+
 "use strict";
 
 import 'whatwg-fetch';
@@ -13,13 +26,9 @@ PageStore.defaultProps = {
         searchUsersApi(query) {
             return fetch(`https://api.github.com/search/users?q=${encodeURIComponent(query)}`)
                 .then((resp) => resp.json());
-        },
-        searchUserReposApi(userName, query) {
-            return fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(query)}+user:${userName}`)
-                .then((resp) => resp.json());
         }
     },
-    entity: 'user'
+    entity: 'user' // this gives context to generic components like the Search component
 };
 
 PageStore.initialState = {

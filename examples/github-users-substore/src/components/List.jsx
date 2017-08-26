@@ -4,7 +4,10 @@ import React from 'react';
 
 import {createSubscriber} from 'redu';
 
-
+/**
+ * This is a more generic version of the UsersList component from the github-users example.
+ * It is able to be used as both a list of users and as a list of repos.
+ */
 class List extends React.Component {
 
     makeList() {
@@ -33,7 +36,10 @@ class List extends React.Component {
         );
     }
 }
-
+/**
+ * Regardless of which store it is subscribed to, it will pull out the relevant listItems
+ * and the entity ("user", or "repo").
+ */
 export default createSubscriber(List, (storeState, storeProps, storeActions) => {
 
     return {
