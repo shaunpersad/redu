@@ -1,6 +1,6 @@
 {
   "name": "redu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple application-level state management for React apps.",
   "main": "redu.js",
   "directories": {
@@ -21,7 +21,7 @@
     "state",
     "mobx"
   ],
-  "author": "",
+  "author": "Shaun Persad <shaunpersad@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/shaunpersad/redu/issues"
