@@ -1,7 +1,7 @@
 {
-  "name": "Redu",
+  "name": "redu",
   "version": "1.0.0",
-  "description": "Redux made simpler.",
+  "description": "Simple application-level state management for React apps.",
   "main": "redu.js",
   "directories": {
     "example": "examples"
